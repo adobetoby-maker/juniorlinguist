@@ -73,18 +73,45 @@ export default function ModuleHub() {
           ))}
         </div>
 
-        {/* AI Tutor */}
-        <Link
-          to={`/learn/${mod.id}/tutor`}
-          style={{ textDecoration: 'none' }}
-        >
+        {/* More activities */}
+        <div className="mb-3">
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ ...sansFont, color: '#71717A' }}>More Activities</p>
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { label: 'Story Reader', emoji: '📖', path: 'reader', desc: 'Read bilingual stories' },
+              { label: 'Daily Story', emoji: '✨', path: 'daily-story', desc: 'AI-written story today' },
+              { label: 'Speak with Lingo', emoji: '🗣️', path: 'speak', desc: 'Conversation practice' },
+              { label: 'Listening Drill', emoji: '👂', path: 'listening', desc: 'Hear and choose' },
+              { label: 'Sentence Builder', emoji: '🧩', path: 'sentence-build', desc: 'Arrange the words' },
+              { label: 'Memory Game', emoji: '🃏', path: 'memory', desc: 'Flip and match pairs' },
+              { label: 'AI Tutor', emoji: '🤖', path: 'tutor', desc: 'Ask anything' },
+              { label: 'All Games', emoji: '🎮', path: 'games', desc: 'See every activity' },
+            ].map(a => (
+              <Link key={a.path} to={`/learn/${mod.id}/${a.path}`} style={{ textDecoration: 'none' }}>
+                <div
+                  className="flex items-center gap-3 rounded-2xl p-3 transition-all duration-150 hover:scale-[1.02]"
+                  style={{ backgroundColor: '#fff', border: `1.5px solid ${mod.color}22`, boxShadow: `0 1px 4px ${mod.color}10` }}
+                >
+                  <span className="text-xl">{a.emoji}</span>
+                  <div>
+                    <p className="font-bold text-xs" style={{ ...sansFont, color: '#18181B' }}>{a.label}</p>
+                    <p className="text-xs" style={{ ...sansFont, color: '#71717A' }}>{a.desc}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Dashboard link */}
+        <Link to="/learn/dashboard" style={{ textDecoration: 'none' }}>
           <div
-            className="rounded-2xl p-5 text-center mb-10"
-            style={{ background: `linear-gradient(135deg, ${mod.color}18, ${mod.color}0a)`, border: `1.5px solid ${mod.color}30` }}
+            className="rounded-2xl p-4 text-center mb-10"
+            style={{ background: `linear-gradient(135deg, #6366f118, #8b5cf610)`, border: '1.5px solid #6366f130' }}
           >
-            <p className="text-2xl mb-1">🤖</p>
-            <p className="font-bold text-base mb-1" style={{ ...sansFont, color: '#18181B' }}>Practice with AI Tutor</p>
-            <p className="text-xs" style={{ ...sansFont, color: '#71717A' }}>Lingo will ask you questions and help you practice this module</p>
+            <p className="text-2xl mb-1">🏆</p>
+            <p className="font-bold text-sm mb-0.5" style={{ ...sansFont, color: '#18181B' }}>My Progress & Achievements</p>
+            <p className="text-xs" style={{ ...sansFont, color: '#71717A' }}>XP, streaks, vocab mastery, and more</p>
           </div>
         </Link>
       </div>
