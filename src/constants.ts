@@ -1,4 +1,4 @@
-export const APP_URL = 'https://app.languagethreshold.com'
+export const APP_URL = '/learn'
 export const ADULT_URL = 'https://languagethreshold.com'
 
 export const displayFont = { fontFamily: '"Playfair Display", serif' }

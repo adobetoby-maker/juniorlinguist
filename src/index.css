@@ -16,6 +16,21 @@
 
 * { box-sizing: border-box; }
 
+/* Flip card */
+.flip-card { perspective: 1200px; }
+.flip-inner { position: relative; transform-style: preserve-3d; transition: transform 0.38s ease; }
+.flip-inner.flipped { transform: rotateY(180deg); }
+.flip-face { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.flip-back { transform: rotateY(180deg); }
+
+/* Shake animation for wrong match */
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%,60%  { transform: translateX(-6px); }
+  40%,80%  { transform: translateX(6px); }
+}
+.shake { animation: shake 0.5s ease; }
+
 html { scroll-behavior: smooth; }
 
 body {
