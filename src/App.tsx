@@ -21,6 +21,7 @@ const MemoryGame        = lazy(() => import('./pages/learn/MemoryGame'))
 const DailyStory        = lazy(() => import('./pages/learn/DailyStory'))
 const VocabIntelligence = lazy(() => import('./pages/learn/VocabIntelligence'))
 const Dashboard         = lazy(() => import('./pages/learn/Dashboard'))
+const PenPal            = lazy(() => import('./pages/learn/PenPal'))
 
 export default function App() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
               <Route path=":moduleId/sentence-build" element={<SentenceBuild />} />
               <Route path=":moduleId/memory" element={<MemoryGame />} />
               <Route path=":moduleId/daily-story" element={<DailyStory />} />
+              <Route path=":moduleId/penpal" element={<PenPal />} />
             </Routes>
           </Suspense>
         }

@@ -14,6 +14,7 @@ export default function ModuleHub() {
   if (!mod) return <Navigate to="/learn" replace />
 
   const extraActivities = [
+    { label: 'Pen Pal Letters', emoji: '✉️', path: 'penpal', desc: 'Write to a Spanish kid' },
     { label: 'Listening Drill', emoji: '👂', path: 'listening', desc: 'Hear & choose' },
     { label: 'Sentence Builder', emoji: '🧩', path: 'sentence-build', desc: 'Arrange the words' },
     { label: 'Memory Match', emoji: '🃏', path: 'memory', desc: 'Flip & match pairs' },

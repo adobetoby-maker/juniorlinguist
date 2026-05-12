@@ -100,6 +100,15 @@ const GAMES: GameDef[] = [
     xp: '+2 XP/message',
     tag: 'AI',
   },
+  {
+    id: 'penpal',
+    emoji: '✉️',
+    label: 'Pen Pal',
+    desc: 'Exchange letters with a Spanish kid',
+    path: id => `/learn/${id}/penpal`,
+    xp: '+15 XP/letter',
+    tag: 'AI',
+  },
 ]
 
 export default function GamesHub() {
