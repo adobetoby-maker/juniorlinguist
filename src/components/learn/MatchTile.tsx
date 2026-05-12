@@ -26,16 +26,16 @@ export default function MatchTile({
       disabled={status === 'matched'}
       className={s.extra ?? ''}
       style={{
-        minHeight: 52,
+        minHeight: 60,
         width: '100%',
-        padding: '10px 14px',
-        borderRadius: 12,
+        padding: '12px 14px',
+        borderRadius: 14,
         border: `2px solid ${border}`,
         backgroundColor: bg,
         color: s.text,
         fontFamily: '"Nunito", sans-serif',
         fontWeight: 700,
-        fontSize: 15,
+        fontSize: 16,
         cursor: status === 'matched' ? 'default' : 'pointer',
         transition: 'all 0.15s ease',
         opacity: status === 'matched' ? 0.4 : 1,

@@ -109,6 +109,24 @@ const GAMES: GameDef[] = [
     xp: '+15 XP/letter',
     tag: 'AI',
   },
+  {
+    id: 'cognates',
+    emoji: '🔤',
+    label: 'Cognate Patterns',
+    desc: '-tion → -ción and more!',
+    path: id => `/learn/${id}/cognates`,
+    xp: '+8 XP/correct',
+    tag: 'Patterns',
+  },
+  {
+    id: 'pronunciation',
+    emoji: '🗣️',
+    label: 'Pronunciation Coach',
+    desc: 'Sound like a native speaker',
+    path: id => `/learn/${id}/pronunciation`,
+    xp: '+5 XP/correct',
+    tag: 'Sounds',
+  },
 ]
 
 export default function GamesHub() {
@@ -122,6 +140,8 @@ export default function GamesHub() {
     Audio: '#0891b2',
     Stories: '#059669',
     Fun: '#dc2626',
+    Patterns: '#d97706',
+    Sounds: '#0d9488',
   }
 
   return (

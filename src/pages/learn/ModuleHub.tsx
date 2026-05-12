@@ -4,6 +4,7 @@ import { KIDS_MODULES } from '../../data/kidsModules'
 import { getModuleProgress } from '../../state/progress'
 import FluencyPath from '../../components/learn/FluencyPath'
 import StarDisplay from '../../components/learn/StarDisplay'
+import LanguageTree from '../../components/learn/LanguageTree'
 import { sansFont, displayFont } from '../../constants'
 
 export default function ModuleHub() {
@@ -18,6 +19,8 @@ export default function ModuleHub() {
     { label: 'Listening Drill', emoji: '👂', path: 'listening', desc: 'Hear & choose' },
     { label: 'Sentence Builder', emoji: '🧩', path: 'sentence-build', desc: 'Arrange the words' },
     { label: 'Memory Match', emoji: '🃏', path: 'memory', desc: 'Flip & match pairs' },
+    { label: 'Cognate Patterns', emoji: '🔤', path: 'cognates', desc: '-tion → -ción and more' },
+    { label: 'Pronunciation', emoji: '🗣️', path: 'pronunciation', desc: 'Sound like a native' },
     { label: 'All Activities', emoji: '🎮', path: 'games', desc: 'See everything' },
   ]
 
@@ -42,6 +45,9 @@ export default function ModuleHub() {
           <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ ...sansFont, color: '#7C3AED' }}>💡 Did you know?</p>
           <p className="text-sm leading-relaxed" style={{ ...sansFont, color: '#3F3F46' }}>{mod.funFact}</p>
         </div>
+
+        {/* Compact tree — overall XP progress */}
+        <LanguageTree compact />
 
         {/* === FLUENCY PATH — the centerpiece === */}
         <div className="bg-white rounded-3xl p-5 shadow-sm mb-5" style={{ border: `1.5px solid ${mod.color}20` }}>

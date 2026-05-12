@@ -82,3 +82,19 @@ body {
   font-family: "Nunito", sans-serif;
   margin: 0;
 }
+
+/* Eliminate 300ms tap delay + suppress blue flash on tap */
+button, a, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Safe-area helpers */
+.safe-top    { padding-top:    env(safe-area-inset-top,    0px); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.pt-safe     { padding-top:    max(56px, calc(56px + env(safe-area-inset-top, 0px))); }
+
+/* Spin animation for word-card loader */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
