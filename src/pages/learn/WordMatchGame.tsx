@@ -3,29 +3,42 @@ import { useParams, Navigate } from 'react-router-dom'
 import { KIDS_MODULES } from '../../data/kidsModules'
 import { useMatchSession, calcMatchStars } from '../../state/useMatchSession'
 import { saveMatchResult } from '../../state/progress'
+import { useAppState } from '../../state/AppState'
 import GameShell from '../../components/learn/GameShell'
 import MatchTile from '../../components/learn/MatchTile'
 import ResultScreen from '../../components/learn/ResultScreen'
+import { ding, thud } from '../../utils/haptics'
 import { sansFont } from '../../constants'
+
+const LANG_LABELS: Record<string, string> = { es: 'Spanish', fr: 'French', ja: 'Japanese', it: 'Italian', pt: 'Portuguese' }
 
 export default function WordMatchGame() {
   const { moduleId } = useParams<{ moduleId: string }>()
   const mod = KIDS_MODULES.find(m => m.id === moduleId)
   const { state, selectLeft, selectRight, clearShake, nextRound, reset } = useMatchSession(mod?.vocab ?? [])
+  const { dispatch } = useAppState()
   const [saved, setSaved] = useState(false)
 
   if (!mod) return <Navigate to="/learn" replace />
 
   const stars = calcMatchStars(state.mistakes)
+  const langLabel = LANG_LABELS[mod.language] ?? mod.language
 
   // Auto-clear shake after 600ms
   useEffect(() => {
     const hasShake = state.leftCol.some(i => i.status === 'shake') || state.rightCol.some(i => i.status === 'shake')
     if (hasShake) {
+      thud()
       const t = setTimeout(clearShake, 600)
       return () => clearTimeout(t)
     }
   }, [state.leftCol, state.rightCol, clearShake])
+
+  // Haptic ding on successful pair match
+  useEffect(() => {
+    const hasNewMatch = state.leftCol.some(i => i.status === 'matched') || state.rightCol.some(i => i.status === 'matched')
+    if (hasNewMatch && state.phase === 'playing') ding()
+  }, [state.leftCol, state.rightCol, state.phase])
 
   // Auto-advance between rounds after 1.2s
   useEffect(() => {
@@ -38,9 +51,10 @@ export default function WordMatchGame() {
   useEffect(() => {
     if (state.phase === 'result' && !saved) {
       saveMatchResult(mod.id, stars)
+      dispatch({ type: 'RECORD_ACTIVITY', activityId: `match-${mod.id}` })
       setSaved(true)
     }
-  }, [state.phase, saved, mod.id, stars])
+  }, [state.phase, saved, mod.id, stars, dispatch])
 
   if (state.phase === 'result') {
     return (
@@ -90,7 +104,7 @@ export default function WordMatchGame() {
               ))}
             </div>
             <div className="flex flex-col gap-3">
-              <p className="text-xs font-bold uppercase tracking-widest text-center mb-1" style={{ ...sansFont, color: '#71717A' }}>Spanish</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-center mb-1" style={{ ...sansFont, color: '#71717A' }}>{langLabel}</p>
               {state.rightCol.map((item, i) => (
                 <MatchTile
                   key={`${item.vocab.es}-r`}
@@ -105,7 +119,7 @@ export default function WordMatchGame() {
         )}
 
         <p className="text-center text-xs mt-6" style={{ ...sansFont, color: '#A1A1AA' }}>
-          Tap an English word, then tap its Spanish match
+          Tap an English word, then tap its {langLabel} match
         </p>
       </div>
     </GameShell>

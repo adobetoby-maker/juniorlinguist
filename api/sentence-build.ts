@@ -1,8 +1,17 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { checkRateLimit } from './_ratelimit'
+
+const LANG_NAMES: Record<string, string> = {
+  es: 'Spanish', fr: 'French', ja: 'Japanese', it: 'Italian', pt: 'Portuguese',
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
-  const { moduleId = 'general', level = 1, avoid = [] } = req.body ?? {}
+  if (await checkRateLimit(req, res)) return
+
+  const { moduleId = 'general', level = 1, avoid = [], language = 'es' } = req.body ?? {}
+  const langName = LANG_NAMES[language] ?? 'Spanish'
+  const baseId = String(moduleId).replace(/-(fr|ja|it|pt)$/, '')
 
   const key = process.env.ANTHROPIC_API_KEY
   if (!key) return res.status(500).json({ error: 'AI not configured' })
@@ -15,7 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     input_schema: {
       type: 'object',
       properties: {
-        sentence: { type: 'string', description: `A complete, correct Spanish sentence (${tc} words). Age-appropriate.` },
+        sentence: { type: 'string', description: `A complete, correct ${langName} sentence (${tc} words). Age-appropriate.` },
         translation: { type: 'string', description: 'English translation.' },
         tokens: { type: 'array', items: { type: 'string' }, description: 'Each word/punctuation as a separate token, in SHUFFLED order.' },
       },
@@ -31,7 +40,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       body: JSON.stringify({
         model: 'claude-haiku-4-5',
         max_tokens: 400,
-        system: `Generate sentence-building exercises for children ages 7-14 learning Spanish. Topic: ${moduleId}. Tokens must be SHUFFLED — never in the correct order. Keep vocabulary simple.${avoidList ? ` Don't repeat: ${avoidList}.` : ''}`,
+        system: `Generate sentence-building exercises for children ages 7-14 learning ${langName}. Topic: ${baseId}. Tokens must be SHUFFLED — never in the correct order. Keep vocabulary simple.${avoidList ? ` Don't repeat: ${avoidList}.` : ''}`,
         tools: [tool],
         tool_choice: { type: 'tool', name: 'sentence_question' },
         messages: [{ role: 'user', content: `Generate a level ${level} sentence building question.` }],

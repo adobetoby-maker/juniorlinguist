@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import type { KidsModule } from '../../data/kidsModules'
 import type { ModuleProgress } from '../../state/progress'
 import { fluencyPct } from '../../state/progress'
+import { getDueCount } from '../../state/useSM2'
 
 export default function ModulePickerCard({
   mod,
@@ -12,6 +13,7 @@ export default function ModulePickerCard({
 }) {
   const pct = progress ? fluencyPct(progress, mod.id) : 0
   const played = !!progress?.lastPlayedAt
+  const dueCount = getDueCount(mod.id, mod.vocab)
 
   const label =
     pct === 100 ? '🌟 Fluent!'
@@ -50,7 +52,17 @@ export default function ModulePickerCard({
         </div>
 
         <div className="p-4">
-          <div className="text-4xl mb-2">{mod.emoji}</div>
+          <div className="flex items-start justify-between mb-2">
+            <div className="text-4xl">{mod.emoji}</div>
+            {dueCount > 0 && (
+              <span
+                className="text-xs font-bold px-2 py-0.5 rounded-full"
+                style={{ backgroundColor: '#FEF3C7', color: '#D97706', fontFamily: '"Nunito", sans-serif' }}
+              >
+                {dueCount} due
+              </span>
+            )}
+          </div>
           <h3 className="font-bold text-sm mb-0.5 leading-tight" style={{ fontFamily: '"Nunito", sans-serif', color: '#18181B' }}>
             {mod.title}
           </h3>

@@ -1,8 +1,17 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { checkRateLimit } from './_ratelimit'
+
+const LANG_NAMES: Record<string, string> = {
+  es: 'Spanish', fr: 'French', ja: 'Japanese', it: 'Italian', pt: 'Portuguese',
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
-  const { moduleId = 'general', vocabWords = [] } = req.body ?? {}
+  if (await checkRateLimit(req, res)) return
+
+  const { moduleId = 'general', vocabWords = [], language = 'es' } = req.body ?? {}
+  const langName = LANG_NAMES[language] ?? 'Spanish'
+  const baseId = String(moduleId).replace(/-(fr|ja|it|pt)$/, '')
 
   const key = process.env.ANTHROPIC_API_KEY
   if (!key) return res.status(500).json({ error: 'AI not configured' })
@@ -16,19 +25,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     input_schema: {
       type: 'object',
       properties: {
-        title: { type: 'string', description: 'A short, fun story title in Spanish.' },
+        title: { type: 'string', description: `A short, fun story title in ${langName}.` },
         titleEn: { type: 'string', description: 'English translation of the title.' },
         sentences: {
           type: 'array',
           items: {
             type: 'object',
             properties: {
-              es: { type: 'string' },
-              en: { type: 'string' },
+              es: { type: 'string', description: `One sentence in ${langName} (A1-A2 level).` },
+              en: { type: 'string', description: 'English translation.' },
             },
             required: ['es', 'en'],
           },
-          description: '6-8 sentence pairs. Each sentence: simple A1-A2 Spanish + English translation. Age-appropriate theme.',
+          description: `6-8 sentence pairs. Each sentence: simple A1-A2 ${langName} + English translation. Age-appropriate theme.`,
         },
         question: { type: 'string', description: 'One simple comprehension question in English about the story.' },
         answerHint: { type: 'string', description: 'The key word or phrase that answers the question.' },
@@ -44,7 +53,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       body: JSON.stringify({
         model: 'claude-haiku-4-5',
         max_tokens: 800,
-        system: `You write delightful, age-appropriate short stories for children ages 7-14 learning Spanish. Topic: ${moduleId}. Use simple A1-A2 vocabulary. Stories should be fun, positive, and educational. ${vocabHint}`,
+        system: `You write delightful, age-appropriate short stories for children ages 7-14 learning ${langName}. Topic: ${baseId}. Use simple A1-A2 vocabulary. Stories should be fun, positive, and educational. ${vocabHint}`,
         tools: [tool],
         tool_choice: { type: 'tool', name: 'kids_story' },
         messages: [{ role: 'user', content: 'Generate a short bilingual story for today.' }],

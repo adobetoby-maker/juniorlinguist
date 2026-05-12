@@ -1,45 +1,40 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { checkRateLimit } from './_ratelimit'
 
-const KNOWN_MODULE_IDS = new Set([
-  'animals', 'school', 'family', 'sports', 'food', 'travel', 'arts', 'science', 'body', 'general',
-])
+const LANG_NAMES: Record<string, string> = {
+  es: 'Spanish', fr: 'French', ja: 'Japanese', it: 'Italian', pt: 'Portuguese',
+}
 
 const MODULE_TITLES: Record<string, string> = {
-  animals: 'Animals & Nature',
-  school: 'School & Learning',
-  family: 'Family & Home',
-  sports: 'Sports & Games',
-  food: 'Food & Eating',
-  travel: 'Travel & Places',
-  arts: 'Arts & Music',
-  science: 'Science & Discovery',
-  body: 'Body & Feelings',
-  general: 'Spanish',
+  animals: 'Animals & Nature', school: 'School & Learning', family: 'Family & Home',
+  sports: 'Sports & Games', food: 'Food & Eating', travel: 'Travel & Places',
+  arts: 'Arts & Music', science: 'Science & Discovery', body: 'Body & Feelings',
+  weather: 'Weather', colors: 'Colors & Shapes', numbers: 'Numbers & Math',
+  clothing: 'Clothing', house: 'House & Home', emotions: 'Emotions',
+  transportation: 'Transportation', jobs: 'Jobs & Careers', nature: 'Nature',
+  seasons: 'Seasons', time: 'Time & Calendar', restaurant: 'Restaurant & Ordering',
+  shopping: 'Shopping', community: 'Community Helpers', opposites: 'Opposites',
+  general: 'General',
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+  if (await checkRateLimit(req, res)) return
 
-  const { moduleId = 'general', messages = [] } = req.body ?? {}
-
-  if (!KNOWN_MODULE_IDS.has(moduleId)) {
-    return res.status(400).json({ error: 'Unknown module' })
-  }
-
-  const title = MODULE_TITLES[moduleId] ?? 'Spanish'
-  const system = `You are Lingo, a friendly and encouraging Spanish tutor for kids ages 7-14. Keep every response to 2-3 sentences maximum. Use simple, fun vocabulary — no complex grammar terms. React warmly to correct answers and effort. Today's topic is: ${title}. Always respond in English unless you are teaching or practicing a specific Spanish word or phrase. If the child uses a Spanish word correctly, briefly celebrate it before moving on.`
+  const { moduleId = 'general', messages = [], language = 'es' } = req.body ?? {}
+  const baseId = String(moduleId).replace(/-(fr|ja|it|pt)$/, '')
+  const title = MODULE_TITLES[baseId] ?? 'General'
+  const langName = LANG_NAMES[language] ?? 'Spanish'
 
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) return res.status(500).json({ error: 'AI not configured' })
 
+  const system = `You are Lingo, a friendly and encouraging ${langName} tutor for kids ages 7-14. Keep every response to 2-3 sentences maximum. Use simple, fun vocabulary — no complex grammar terms. React warmly to correct answers and effort. Today's topic is: ${title}. Always respond in English unless you are teaching or practicing a specific ${langName} word or phrase. If the child uses a ${langName} word correctly, briefly celebrate it before moving on.`
+
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
       body: JSON.stringify({
         model: 'claude-haiku-4-5',
         max_tokens: 500,

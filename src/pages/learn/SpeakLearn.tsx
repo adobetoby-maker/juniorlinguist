@@ -223,10 +223,10 @@ export default function SpeakLearn() {
           <textarea
             value={input}
             onChange={e => setInput(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input) } }}
+            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (!sending) sendMessage(input) } }}
             placeholder="Escribe en español…"
             rows={1}
-            className="flex-1 px-3 py-2.5 rounded-2xl border border-gray-200 text-sm resize-none outline-none focus:border-blue-300 leading-relaxed"
+            className="flex-1 px-3 py-2.5 rounded-2xl border border-gray-200 text-base resize-none outline-none focus:border-blue-300 leading-relaxed"
             style={{ maxHeight: '100px', overflowY: 'auto' }}
           />
 
@@ -237,7 +237,7 @@ export default function SpeakLearn() {
               onMouseUp={stopVoice}
               onTouchStart={startVoice}
               onTouchEnd={stopVoice}
-              className={`w-10 h-10 rounded-full flex items-center justify-center text-lg transition-all flex-shrink-0 ${
+              className={`w-11 h-11 rounded-full flex items-center justify-center text-xl transition-all flex-shrink-0 ${
                 recState === 'listening' ? 'bg-red-500 scale-110' : 'bg-gray-100 hover:bg-gray-200'
               }`}
               aria-label="Hold to speak"
@@ -249,7 +249,7 @@ export default function SpeakLearn() {
           <button
             onClick={() => sendMessage(input)}
             disabled={!input.trim() || sending}
-            className="w-10 h-10 rounded-full text-white flex items-center justify-center flex-shrink-0 disabled:opacity-40 transition-transform active:scale-95"
+            className="w-11 h-11 rounded-full text-white flex items-center justify-center flex-shrink-0 disabled:opacity-40 transition-transform active:scale-95"
             style={{ background: module.color }}
           >
             →

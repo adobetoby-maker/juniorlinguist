@@ -14,6 +14,7 @@ type FlashAction =
   | { type: 'FLIP' }
   | { type: 'GOT_IT' }
   | { type: 'NOT_YET' }
+  | { type: 'ALREADY_KNEW' }
   | { type: 'RESET'; vocab: VocabPair[] }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -39,6 +40,13 @@ function reduce(state: FlashState, action: FlashAction): FlashState {
       const [current, ...rest] = state.queue
       return { ...state, queue: [...rest, current], flipped: false, wrongCount: state.wrongCount + 1 }
     }
+    case 'ALREADY_KNEW': {
+      // Advance queue without penalizing wrongCount (grade 5 SM-2 called from parent)
+      const newQueue = state.queue.slice(1)
+      const newGotIt = state.gotIt + 1
+      if (newQueue.length === 0) return { ...state, queue: newQueue, flipped: false, gotIt: newGotIt, phase: 'result' }
+      return { ...state, queue: newQueue, flipped: false, gotIt: newGotIt }
+    }
     case 'RESET':
       return init(action.vocab)
     default:
@@ -61,6 +69,7 @@ export function useFlashSession(vocab: VocabPair[]) {
   const flip = useCallback(() => dispatch({ type: 'FLIP' }), [])
   const gotIt = useCallback(() => dispatch({ type: 'GOT_IT' }), [])
   const notYet = useCallback(() => dispatch({ type: 'NOT_YET' }), [])
+  const alreadyKnew = useCallback(() => dispatch({ type: 'ALREADY_KNEW' }), [])
   const reset = useCallback(() => dispatch({ type: 'RESET', vocab }), [vocab])
-  return { state, flip, gotIt, notYet, reset }
+  return { state, flip, gotIt, notYet, alreadyKnew, reset }
 }

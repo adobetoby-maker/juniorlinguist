@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import GameShell from '../../components/learn/GameShell'
 import ResultScreen from '../../components/learn/ResultScreen'
 import { useSpeech } from '../../state/SpeechProvider'
+import { ding } from '../../utils/haptics'
 import { KIDS_MODULES } from '../../data/kidsModules'
 import { useAppState } from '../../state/AppState'
 import { saveMatchResult } from '../../state/progress'
@@ -78,6 +79,7 @@ export default function MemoryGame() {
       const [a, b] = newFlipped.map(fid => cards.find(c => c.id === fid)!)
       if (a.pairId === b.pairId) {
         // Match!
+        ding()
         speak(a.lang === 'es' ? a.content : b.content, 'es')
         setTimeout(() => {
           setCards(prev => prev.map(c => newFlipped.includes(c.id) ? { ...c, matched: true, flipped: true } : c))
@@ -144,8 +146,8 @@ export default function MemoryGame() {
           />
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-4 gap-2">
+        {/* Grid — 3 cols on mobile (bigger tap targets), 4 on wider screens */}
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
           {cards.map(card => {
             const isFlipped = card.flipped || card.matched
             const isShaking = shakeIds.includes(card.id)
@@ -154,7 +156,7 @@ export default function MemoryGame() {
                 key={card.id}
                 onClick={() => !isFlipped && flipCard(card.id)}
                 disabled={isFlipped && !card.matched}
-                className={`aspect-square rounded-2xl text-xs font-semibold leading-tight p-1 transition-all duration-300 ${isShaking ? 'shake' : ''}`}
+                className={`aspect-square rounded-2xl text-sm font-semibold leading-tight p-2 transition-all duration-300 ${isShaking ? 'shake' : ''}`}
                 style={{
                   background: card.matched
                     ? `${module.color}22`

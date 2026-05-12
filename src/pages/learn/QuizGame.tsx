@@ -3,21 +3,33 @@ import { useParams, Navigate } from 'react-router-dom'
 import { KIDS_MODULES } from '../../data/kidsModules'
 import { useQuizSession, calcQuizStars } from '../../state/useQuizSession'
 import { saveQuizResult } from '../../state/progress'
+import { useAppState } from '../../state/AppState'
 import GameShell from '../../components/learn/GameShell'
 import QuizOption from '../../components/learn/QuizOption'
 import ProgressBar from '../../components/learn/ProgressBar'
 import ResultScreen from '../../components/learn/ResultScreen'
+import { ding, thud } from '../../utils/haptics'
 import { sansFont, displayFont } from '../../constants'
 
 export default function QuizGame() {
   const { moduleId } = useParams<{ moduleId: string }>()
   const mod = KIDS_MODULES.find(m => m.id === moduleId)
   const { state, selectAnswer, advance, reset } = useQuizSession(mod?.vocab ?? [], moduleId ?? '')
+  const { dispatch } = useAppState()
   const [saved, setSaved] = useState(false)
 
   if (!mod) return <Navigate to="/learn" replace />
 
   const stars = calcQuizStars(state.score)
+
+  // Haptics when answer is selected
+  useEffect(() => {
+    if (state.feedbackActive && state.selectedAnswer) {
+      const q = state.questions[state.currentIndex]
+      if (state.selectedAnswer === q?.correctAnswer) ding()
+      else thud()
+    }
+  }, [state.feedbackActive, state.selectedAnswer, state.currentIndex, state.questions])
 
   // Auto-advance 800ms after answering
   useEffect(() => {
@@ -30,9 +42,10 @@ export default function QuizGame() {
   useEffect(() => {
     if (state.phase === 'result' && !saved) {
       saveQuizResult(mod.id, state.score, stars)
+      dispatch({ type: 'RECORD_ACTIVITY', activityId: `quiz-${mod.id}` })
       setSaved(true)
     }
-  }, [state.phase, saved, mod.id, state.score, stars])
+  }, [state.phase, saved, mod.id, state.score, stars, dispatch])
 
   if (state.phase === 'result') {
     return (

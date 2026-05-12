@@ -14,6 +14,8 @@ export interface AppState {
   lastActiveDate: string | null
   vocab: VocabItem[]
   achievements: string[]
+  shieldActive: boolean
+  todayActivities: Set<string>
 }
 
 type AppAction =
@@ -22,6 +24,7 @@ type AppAction =
   | { type: 'INCREMENT_VOCAB'; word: string }
   | { type: 'TOUCH_STREAK' }
   | { type: 'EARN_ACHIEVEMENT'; name: string }
+  | { type: 'RECORD_ACTIVITY'; activityId: string }
 
 const TIERS = [
   { min: 1500, label: 'Legend', emoji: '🌟' },
@@ -71,8 +74,26 @@ function reduce(state: AppState, action: AppAction): AppState {
       const t = today()
       if (state.lastActiveDate === t) return state
       const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10)
-      const newStreak = state.lastActiveDate === yesterday ? state.streak + 1 : 1
-      return { ...state, streak: newStreak, lastActiveDate: t }
+      const consecutive = state.lastActiveDate === yesterday
+      const missedAndShielded = !consecutive && state.shieldActive
+      const newStreak = consecutive ? state.streak + 1 : missedAndShielded ? state.streak : 1
+      return {
+        ...state,
+        streak: newStreak,
+        lastActiveDate: t,
+        shieldActive: missedAndShielded ? false : state.shieldActive,
+        todayActivities: new Set<string>(),
+      }
+    }
+    case 'RECORD_ACTIVITY': {
+      const activities = new Set(state.todayActivities)
+      activities.add(action.activityId)
+      const shieldEarned = activities.size >= 2
+      return {
+        ...state,
+        todayActivities: activities,
+        shieldActive: state.shieldActive || shieldEarned,
+      }
     }
     case 'EARN_ACHIEVEMENT':
       if (state.achievements.includes(action.name)) return state
@@ -82,13 +103,23 @@ function reduce(state: AppState, action: AppAction): AppState {
   }
 }
 
-const INITIAL: AppState = { xp: 0, streak: 0, lastActiveDate: null, vocab: [], achievements: [] }
+const INITIAL: AppState = {
+  xp: 0, streak: 0, lastActiveDate: null, vocab: [], achievements: [],
+  shieldActive: false, todayActivities: new Set<string>(),
+}
 const STORAGE_KEY = 'jl_app_v1'
 
 function load(): AppState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) return { ...INITIAL, ...JSON.parse(raw) }
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      return {
+        ...INITIAL,
+        ...parsed,
+        todayActivities: new Set<string>(parsed.todayActivities ?? []),
+      }
+    }
   } catch {}
   return INITIAL
 }
@@ -102,7 +133,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const prevTierRef = useRef(getTier(state.xp).label)
 
   useEffect(() => {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)) } catch {}
+    try {
+      const serializable = { ...state, todayActivities: [...state.todayActivities] }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(serializable))
+    } catch {}
   }, [state])
 
   // Touch streak on mount
