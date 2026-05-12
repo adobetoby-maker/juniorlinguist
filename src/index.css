@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #FDFCF9;
+  --color-surface: #F0EDE6;
+  --color-text: #18181B;
+  --color-muted: #71717A;
+  --color-purple: #7C3AED;
+  --color-purple-light: #A78BFA;
+  --color-teal: #0D9488;
+  --color-amber: #D97706;
+
+  --font-family-display: "Playfair Display", serif;
+  --font-family-sans: "Nunito", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: #FDFCF9;
+  color: #18181B;
+  font-family: "Nunito", sans-serif;
+  margin: 0;
+}
