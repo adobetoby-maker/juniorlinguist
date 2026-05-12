@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect, type ReactNode } from 'react'
+import { createContext, useContext, useReducer, useEffect, useRef, type ReactNode } from 'react'
 
 export interface VocabItem {
   word: string       // Spanish
@@ -98,6 +98,8 @@ const Ctx = createContext<AppCtx | null>(null)
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reduce, undefined, load)
+  const prevXpRef = useRef(state.xp)
+  const prevTierRef = useRef(getTier(state.xp).label)
 
   useEffect(() => {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)) } catch {}
@@ -105,6 +107,24 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // Touch streak on mount
   useEffect(() => { dispatch({ type: 'TOUCH_STREAK' }) }, [])
+
+  // Emit XP pop event when XP increases
+  useEffect(() => {
+    if (state.xp > prevXpRef.current) {
+      const amount = state.xp - prevXpRef.current
+      window.dispatchEvent(new CustomEvent('jl:xp', { detail: { amount } }))
+    }
+    prevXpRef.current = state.xp
+  }, [state.xp])
+
+  // Emit level-up event when tier advances
+  useEffect(() => {
+    const tier = getTier(state.xp)
+    if (tier.label !== prevTierRef.current) {
+      window.dispatchEvent(new CustomEvent('jl:levelup', { detail: { tier } }))
+    }
+    prevTierRef.current = tier.label
+  }, [state.xp])
 
   return <Ctx.Provider value={{ state, dispatch }}>{children}</Ctx.Provider>
 }

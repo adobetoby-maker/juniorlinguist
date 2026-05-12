@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom'
 import { KIDS_MODULES } from '../../data/kidsModules'
 import TutorBubble, { type TutorMessage } from '../../components/learn/TutorBubble'
 import { PURPLE, sansFont } from '../../constants'
+import { useAppState } from '../../state/AppState'
+import { saveSpeakSession } from '../../state/progress'
 
 const GREETING: TutorMessage = {
   role: 'assistant',
@@ -32,6 +34,8 @@ export default function TutorChat() {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const sessionSavedRef = useRef(false)
+  const { dispatch } = useAppState()
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -58,6 +62,11 @@ export default function TutorChat() {
       const data = await res.json()
       const reply: TutorMessage = { role: 'assistant', content: data.message ?? "Sorry, I didn't catch that. Try again!" }
       setMessages(prev => [...prev, reply])
+      dispatch({ type: 'ADD_XP', amount: 2 })
+      if (!sessionSavedRef.current) {
+        saveSpeakSession(moduleId ?? 'general')
+        sessionSavedRef.current = true
+      }
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: "Oops! I had a little trouble. Try again in a moment! 😊" }])
     } finally {

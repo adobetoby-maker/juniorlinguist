@@ -78,8 +78,8 @@ export default function SentenceBuild() {
 
   function handleCheck() {
     const q = questions[current]
-    const correct = q.sentence.trim()
-    const attempt = tray.join(' ').trim()
+    const correct = q.sentence.trim().toLowerCase()
+    const attempt = tray.join(' ').trim().toLowerCase()
     if (attempt === correct) {
       setScore(s => s + 1)
       dispatch({ type: 'ADD_XP', amount: 10 })

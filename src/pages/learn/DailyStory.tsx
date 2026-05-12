@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import GameShell from '../../components/learn/GameShell'
 import ClickableWord from '../../components/learn/ClickableWord'
@@ -6,6 +6,7 @@ import KidsWordCard from '../../components/learn/KidsWordCard'
 import { useSpeech } from '../../state/SpeechProvider'
 import { KIDS_MODULES } from '../../data/kidsModules'
 import { useAppState } from '../../state/AppState'
+import { saveStoryRead } from '../../state/progress'
 
 interface StoryPair { en: string; es: string }
 interface AIStory {
@@ -39,6 +40,7 @@ export default function DailyStory() {
 
   const { speak, speakQueue, stop, playing } = useSpeech()
   const { dispatch } = useAppState()
+  const storySavedRef = useRef(false)
 
   useEffect(() => {
     const key = cacheKey(moduleId)
@@ -85,6 +87,11 @@ export default function DailyStory() {
     if (!story || !userAnswer.trim()) return
     setAnswered(true)
     dispatch({ type: 'ADD_XP', amount: 15 })
+    dispatch({ type: 'EARN_ACHIEVEMENT', name: 'read_story' })
+    if (!storySavedRef.current) {
+      saveStoryRead(moduleId)
+      storySavedRef.current = true
+    }
   }
 
   const isCorrect = story && answered &&

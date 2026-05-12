@@ -69,7 +69,7 @@ export default function ListeningDrill() {
     setSelected(option)
     setPhase('answered')
     const q = questions[current]
-    if (option === q.phrase) {
+    if (option.trim().toLowerCase() === q.phrase.trim().toLowerCase()) {
       setScore(s => s + 1)
       dispatch({ type: 'ADD_XP', amount: 8 })
     }
@@ -198,7 +198,7 @@ export default function ListeningDrill() {
             {/* Options */}
             <div className="space-y-3">
               {q.options.map((opt, i) => {
-                const isCorrect = opt === q.phrase
+                const isCorrect = opt.trim().toLowerCase() === q.phrase.trim().toLowerCase()
                 const isSelected = opt === selected
                 let bg = 'white'
                 let border = '#e5e7eb'

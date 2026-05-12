@@ -1,14 +1,18 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { KIDS_MODULES } from '../../data/kidsModules'
-import { getAllProgress, totalStars } from '../../state/progress'
+import { getAllProgress, fluencyPct } from '../../state/progress'
 import ModulePickerCard from '../../components/learn/ModulePickerCard'
 import { PURPLE, sansFont, displayFont } from '../../constants'
 
 export default function ModulePicker() {
   const progress = useMemo(() => getAllProgress(), [])
-  const total = Object.values(progress).reduce((sum, p) => sum + totalStars(p), 0)
-  const maxTotal = KIDS_MODULES.length * 9 // 3 stars × 3 games
+  const totalFluency = useMemo(() => {
+    return Math.round(
+      KIDS_MODULES.reduce((sum, m) => sum + fluencyPct(progress[m.id] ?? { moduleId: m.id, flashBestStars: 0, matchBestStars: 0, quizBestScore: 0, quizBestStars: 0, storiesRead: 0, speakSessions: 0, lastPlayedAt: null }, m.id), 0)
+      / KIDS_MODULES.length
+    )
+  }, [progress])
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#FDFCF9' }}>
@@ -20,11 +24,11 @@ export default function ModulePicker() {
         <Link to="/" style={{ textDecoration: 'none' }}>
           <span className="font-bold text-base" style={{ ...sansFont, color: PURPLE }}>← Junior Linguist</span>
         </Link>
-        {total > 0 && (
+        <Link to="/learn/dashboard" style={{ textDecoration: 'none' }}>
           <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ ...sansFont, backgroundColor: `${PURPLE}14`, color: PURPLE }}>
-            ⭐ {total} / {maxTotal} stars
+            🏆 {totalFluency}% fluent
           </span>
-        )}
+        </Link>
       </div>
 
       <div className="pt-20 pb-16 px-5 max-w-4xl mx-auto">
@@ -33,7 +37,7 @@ export default function ModulePicker() {
             Pick a Topic
           </h1>
           <p className="text-sm" style={{ ...sansFont, color: '#71717A' }}>
-            Tap a topic to start — flashcards, word match, and quiz inside each one.
+            10 activities per topic — stories, games, speaking, and more!
           </p>
         </div>
 

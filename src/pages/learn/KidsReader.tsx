@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react'
-import { useParams } from 'react-router-dom'
+import { useState, useRef, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import GameShell from '../../components/learn/GameShell'
 import ClickableWord from '../../components/learn/ClickableWord'
 import KidsWordCard from '../../components/learn/KidsWordCard'
@@ -7,6 +7,7 @@ import { useSpeech } from '../../state/SpeechProvider'
 import { KIDS_STORIES, type KidsStory } from '../../data/kidsStories'
 import { KIDS_MODULES } from '../../data/kidsModules'
 import { useAppState } from '../../state/AppState'
+import { saveStoryRead } from '../../state/progress'
 
 interface WordPos { word: string; sentence: string; x: number; y: number }
 
@@ -14,8 +15,9 @@ export default function KidsReader() {
   const { moduleId = 'animals' } = useParams<{ moduleId: string }>()
   const module = KIDS_MODULES.find(m => m.id === moduleId) ?? KIDS_MODULES[0]
   const stories = KIDS_STORIES.filter(s => s.moduleId === moduleId)
+  const navigate = useNavigate()
 
-  const [activeStory, setActiveStory] = useState<KidsStory>(stories[0] ?? KIDS_STORIES[0])
+  const [activeStory, setActiveStory] = useState<KidsStory | null>(stories[0] ?? null)
   const [popup, setPopup] = useState<WordPos | null>(null)
   const [activeIdx, setActiveIdx] = useState(-1)
   const [answered, setAnswered] = useState(false)
@@ -33,6 +35,7 @@ export default function KidsReader() {
   }
 
   function handlePlayAll() {
+    if (!activeStory) return
     if (playing) { stop(); return }
     const items = activeStory.sentences.map((s, i) => ({ text: s.es, index: i }))
     speakQueue(items, i => setActiveIdx(i))
@@ -45,14 +48,40 @@ export default function KidsReader() {
     setTimeout(() => setActiveIdx(-1), 2500)
   }
 
+  useEffect(() => {
+    if (answered && activeStory) {
+      saveStoryRead(moduleId)
+      dispatch({ type: 'EARN_ACHIEVEMENT', name: 'read_story' })
+    }
+  }, [answered]) // eslint-disable-line react-hooks/exhaustive-deps
+
   function handleAnswerSubmit() {
-    if (!userAnswer.trim()) return
+    if (!userAnswer.trim() || !activeStory) return
     setAnswered(true)
     dispatch({ type: 'ADD_XP', amount: 10 })
   }
 
-  const correct = activeStory.answerHint.toLowerCase()
+  const correct = activeStory?.answerHint.toLowerCase() ?? ''
   const isCorrect = answered && userAnswer.toLowerCase().includes(correct)
+
+  if (!activeStory) {
+    return (
+      <GameShell title="Story Reader" moduleId={moduleId}>
+        <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
+          <div className="text-6xl mb-4">📖</div>
+          <h3 className="text-xl font-bold text-gray-800 mb-2">No stories yet for {module.title}</h3>
+          <p className="text-gray-500 text-sm mb-6">Try the Daily Story — Lingo writes a fresh one every day just for this topic!</p>
+          <button
+            onClick={() => navigate(`/learn/${moduleId}/daily-story`)}
+            className="px-6 py-3 rounded-full text-white font-bold text-base shadow"
+            style={{ background: module.color }}
+          >
+            ✨ Read Today's Story
+          </button>
+        </div>
+      </GameShell>
+    )
+  }
 
   return (
     <GameShell title="Story Reader" moduleId={moduleId}>
@@ -63,7 +92,7 @@ export default function KidsReader() {
           {allStories.map(s => (
             <button
               key={s.id}
-              onClick={() => { setActiveStory(s); setAnswered(false); setUserAnswer(''); stop(); setActiveIdx(-1) }}
+              onClick={() => { setActiveStory(s as KidsStory); setAnswered(false); setUserAnswer(''); stop(); setActiveIdx(-1) }}
               className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border-2 transition-all"
               style={{
                 borderColor: activeStory.id === s.id ? module.color : '#e5e7eb',

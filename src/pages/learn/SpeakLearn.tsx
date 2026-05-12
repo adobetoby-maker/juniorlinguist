@@ -4,6 +4,7 @@ import GameShell from '../../components/learn/GameShell'
 import { useSpeech } from '../../state/SpeechProvider'
 import { KIDS_MODULES } from '../../data/kidsModules'
 import { useAppState } from '../../state/AppState'
+import { saveSpeakSession } from '../../state/progress'
 
 interface Message { role: 'user' | 'assistant'; content: string }
 
@@ -36,6 +37,7 @@ export default function SpeakLearn() {
   })
   const [input, setInput] = useState('')
   const [sending, setSending] = useState(false)
+  const sessionSavedRef = useRef(false)
   const [tip, setTip] = useState<GrammarTip | null>(null)
   const [recState, setRecState] = useState<RecState>('idle')
 
@@ -87,6 +89,10 @@ export default function SpeakLearn() {
       const assistantMsg: Message = { role: 'assistant', content: reply }
       setMessages(prev => [...prev, assistantMsg])
       dispatch({ type: 'ADD_XP', amount: 5 })
+      if (!sessionSavedRef.current) {
+        saveSpeakSession(moduleId)
+        sessionSavedRef.current = true
+      }
       speak(reply, 'es')
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: '¡Ups! Intenta de nuevo.' }])
