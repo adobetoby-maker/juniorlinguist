@@ -11,9 +11,12 @@ import { saveStoryRead } from '../../state/progress'
 
 interface WordPos { word: string; sentence: string; x: number; y: number }
 
+const LANG_LABELS: Record<string, string> = { es: 'Spanish', fr: 'French', ja: 'Japanese', it: 'Italian', pt: 'Portuguese' }
+
 export default function KidsReader() {
   const { moduleId = 'animals' } = useParams<{ moduleId: string }>()
   const module = KIDS_MODULES.find(m => m.id === moduleId) ?? KIDS_MODULES[0]
+  const langLabel = LANG_LABELS[module.language] ?? module.language
   const stories = KIDS_STORIES.filter(s => s.moduleId === moduleId)
   const navigate = useNavigate()
 
@@ -132,40 +135,45 @@ export default function KidsReader() {
           </button>
         </div>
 
-        {/* Sentences */}
-        <div className="space-y-3">
-          {activeStory.sentences.map((pair, idx) => (
-            <div
-              key={idx}
-              className="rounded-2xl border-2 overflow-hidden transition-all"
-              style={{
-                borderColor: (playing ? activeSentenceIndex : activeIdx) === idx ? module.color : '#f3f4f6',
-                background: (playing ? activeSentenceIndex : activeIdx) === idx ? `${module.color}08` : 'white',
-              }}
-            >
-              {/* English row */}
-              <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
-                <p className="text-gray-600 text-sm leading-relaxed">{pair.en}</p>
+        {/* Sentences — side-by-side columns */}
+        <div className="space-y-2">
+          {activeStory.sentences.map((pair, idx) => {
+            const isActive = (playing ? activeSentenceIndex : activeIdx) === idx
+            return (
+              <div
+                key={idx}
+                className="rounded-2xl border-2 overflow-hidden transition-all"
+                style={{
+                  borderColor: isActive ? module.color : '#f3f4f6',
+                  background: isActive ? `${module.color}06` : 'white',
+                }}
+              >
+                <div className="grid grid-cols-2">
+                  {/* Target language column */}
+                  <div className="px-3 py-3 border-r border-gray-100 flex items-start gap-2">
+                    <p className="text-gray-800 font-semibold text-sm leading-relaxed flex-1">
+                      <ClickableWord
+                        text={pair.es}
+                        color={module.color}
+                        onWord={(w, _s, x, y) => handleWord(w, pair.es, x, y)}
+                      />
+                    </p>
+                    <button
+                      onClick={() => handlePlaySentence(pair.es, idx)}
+                      className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm hover:bg-gray-100 transition-colors mt-0.5"
+                      aria-label="Listen"
+                    >
+                      🔊
+                    </button>
+                  </div>
+                  {/* English column */}
+                  <div className="px-3 py-3 bg-gray-50">
+                    <p className="text-gray-500 text-xs leading-relaxed">{pair.en}</p>
+                  </div>
+                </div>
               </div>
-              {/* Spanish row */}
-              <div className="px-4 py-3 flex items-center justify-between gap-3">
-                <p className="text-gray-800 font-medium leading-relaxed flex-1">
-                  <ClickableWord
-                    text={pair.es}
-                    color={module.color}
-                    onWord={(w, _s, x, y) => handleWord(w, pair.es, x, y)}
-                  />
-                </p>
-                <button
-                  onClick={() => handlePlaySentence(pair.es, idx)}
-                  className="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-lg transition-colors hover:bg-gray-100"
-                  aria-label="Listen"
-                >
-                  🔊
-                </button>
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Comprehension question */}
@@ -204,7 +212,7 @@ export default function KidsReader() {
         </div>
 
         <p className="text-center text-xs text-gray-400 mt-4">
-          Tap any Spanish word to look it up 👆
+          Tap any {langLabel} word to look it up 👆
         </p>
       </div>
 

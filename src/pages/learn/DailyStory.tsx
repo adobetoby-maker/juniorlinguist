@@ -20,6 +20,7 @@ interface AIStory {
 interface WordPos { word: string; sentence: string; x: number; y: number }
 
 const CACHE_KEY_PREFIX = 'jl_daily_'
+const LANG_LABELS: Record<string, string> = { es: 'Spanish', fr: 'French', ja: 'Japanese', it: 'Italian', pt: 'Portuguese' }
 
 function cacheKey(moduleId: string) {
   const d = new Date().toISOString().slice(0, 10)
@@ -29,6 +30,7 @@ function cacheKey(moduleId: string) {
 export default function DailyStory() {
   const { moduleId = 'animals' } = useParams<{ moduleId: string }>()
   const module = KIDS_MODULES.find(m => m.id === moduleId) ?? KIDS_MODULES[0]
+  const langLabel = LANG_LABELS[module.language] ?? module.language
 
   const [story, setStory] = useState<AIStory | null>(null)
   const [loading, setLoading] = useState(false)
@@ -63,6 +65,7 @@ export default function DailyStory() {
         body: JSON.stringify({ moduleId, vocabWords }),
       })
       const data = await res.json()
+      if (data.error === 'rateLimit') { setError("Lingo needs a rest! Come back in a bit. 🌟"); return }
       if (data.title && data.sentences) {
         setStory(data)
         try { localStorage.setItem(cacheKey(moduleId), JSON.stringify(data)) } catch {}
@@ -227,7 +230,7 @@ export default function DailyStory() {
             </div>
 
             <p className="text-center text-xs text-gray-400 mt-4">
-              Tap any Spanish word to look it up 👆
+              Tap any {langLabel} word to look it up 👆
             </p>
           </>
         )}

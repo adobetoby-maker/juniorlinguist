@@ -60,6 +60,10 @@ export default function TutorChat() {
         body: JSON.stringify({ moduleId: moduleId ?? 'general', messages: history }),
       })
       const data = await res.json()
+      if (data.error === 'rateLimit') {
+        setMessages(prev => [...prev, { role: 'assistant', content: "Lingo needs a rest! Come back in a bit. 🌟" }])
+        return
+      }
       const reply: TutorMessage = { role: 'assistant', content: data.message ?? "Sorry, I didn't catch that. Try again!" }
       setMessages(prev => [...prev, reply])
       dispatch({ type: 'ADD_XP', amount: 2 })
@@ -79,12 +83,12 @@ export default function TutorChat() {
       {/* Header */}
       <div
         className="fixed top-0 inset-x-0 z-40 flex items-center gap-3 px-4"
-        style={{ height: 56, backgroundColor: color, boxShadow: '0 2px 12px rgba(0,0,0,0.15)' }}
+        style={{ paddingTop: 'max(12px, env(safe-area-inset-top, 0px))', paddingBottom: 12, backgroundColor: color, boxShadow: '0 2px 12px rgba(0,0,0,0.15)' }}
       >
         <Link
           to={mod ? `/learn/${mod.id}` : '/learn'}
-          className="flex items-center justify-center rounded-full transition-opacity hover:opacity-80"
-          style={{ width: 36, height: 36, backgroundColor: 'rgba(255,255,255,0.2)', color: '#fff', textDecoration: 'none', fontSize: 18 }}
+          className="flex items-center justify-center rounded-full transition-opacity hover:opacity-80 flex-shrink-0"
+          style={{ width: 44, height: 44, backgroundColor: 'rgba(255,255,255,0.2)', color: '#fff', textDecoration: 'none', fontSize: 20 }}
         >
           ←
         </Link>
@@ -96,7 +100,7 @@ export default function TutorChat() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto pt-16 pb-24 px-4">
+      <div className="flex-1 overflow-y-auto px-4" style={{ paddingTop: 'calc(68px + env(safe-area-inset-top, 0px))', paddingBottom: 'calc(88px + env(safe-area-inset-bottom, 0px))' }}>
         <div className="max-w-md mx-auto pt-4">
           {messages.map((msg, i) => (
             <TutorBubble key={i} message={msg} color={color} />
@@ -114,8 +118,8 @@ export default function TutorChat() {
 
       {/* Input */}
       <div
-        className="fixed bottom-0 inset-x-0 px-4 py-3"
-        style={{ backgroundColor: 'rgba(253,252,249,0.97)', backdropFilter: 'blur(8px)', borderTop: '1px solid rgba(124,58,237,0.1)' }}
+        className="fixed bottom-0 inset-x-0 px-4"
+        style={{ paddingTop: 12, paddingBottom: 'max(16px, env(safe-area-inset-bottom, 16px))', backgroundColor: 'rgba(253,252,249,0.97)', backdropFilter: 'blur(8px)', borderTop: '1px solid rgba(124,58,237,0.1)' }}
       >
         <div className="max-w-md mx-auto flex gap-2">
           <input
@@ -131,7 +135,7 @@ export default function TutorChat() {
               border: '2px solid rgba(124,58,237,0.2)',
               padding: '0 16px',
               fontFamily: '"Nunito", sans-serif',
-              fontSize: 15,
+              fontSize: 16,
               fontWeight: 600,
               backgroundColor: '#fff',
               color: '#18181B',

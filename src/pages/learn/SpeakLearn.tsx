@@ -85,6 +85,10 @@ export default function SpeakLearn() {
         }),
       })
       const data = await res.json()
+      if (data.error === 'rateLimit') {
+        setMessages(prev => [...prev, { role: 'assistant', content: "Lingo needs a rest! Come back in a bit. 🌟" }])
+        return
+      }
       const reply = data.message ?? '¡Bien! Sigue intentando.'
       const assistantMsg: Message = { role: 'assistant', content: reply }
       setMessages(prev => [...prev, assistantMsg])

@@ -84,6 +84,9 @@ export default function FlashcardGame() {
           moduleId={mod.id}
           color={mod.color}
           onPlayAgain={() => { setSaved(false); reset() }}
+          got={state.gotIt}
+          total={state.total}
+          lang={mod.language}
         />
       </GameShell>
     )
@@ -122,6 +125,7 @@ export default function FlashcardGame() {
               flipped={state.flipped}
               color={mod.color}
               onClick={() => !state.flipped && flip()}
+              language={langLabel}
             />
           )}
         </div>

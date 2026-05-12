@@ -16,10 +16,12 @@ interface SBQuestion {
 type Phase = 'loading' | 'building' | 'checking' | 'result'
 
 const TOTAL = 5
+const LANG_LABELS: Record<string, string> = { es: 'Spanish', fr: 'French', ja: 'Japanese', it: 'Italian', pt: 'Portuguese' }
 
 export default function SentenceBuild() {
   const { moduleId = 'animals' } = useParams<{ moduleId: string }>()
   const module = KIDS_MODULES.find(m => m.id === moduleId) ?? KIDS_MODULES[0]
+  const langLabel = LANG_LABELS[module.language] ?? module.language
 
   const [level, setLevel] = useState(1)
   const [phase, setPhase] = useState<Phase>('loading')
@@ -45,6 +47,7 @@ export default function SentenceBuild() {
         body: JSON.stringify({ moduleId, level, avoid: avoided }),
       })
       const data = await res.json()
+      if (data.error === 'rateLimit') { setError("Lingo needs a rest! Come back in a bit. 🌟"); setPhase('building'); return }
       if (data.sentence && data.tokens) {
         setQuestions(prev => [...prev, data])
         setAvoided(prev => [...prev, data.sentence].slice(-10))
@@ -194,7 +197,7 @@ export default function SentenceBuild() {
               className="rounded-2xl px-4 py-3 mb-6 text-center"
               style={{ background: `${module.color}12` }}
             >
-              <p className="text-xs text-gray-500 mb-0.5">Arrange the Spanish words to say:</p>
+              <p className="text-xs text-gray-500 mb-0.5">Arrange the {langLabel} words to say:</p>
               <p className="text-gray-800 font-semibold">{q.translation}</p>
             </div>
 

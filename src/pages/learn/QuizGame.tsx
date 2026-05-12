@@ -56,6 +56,9 @@ export default function QuizGame() {
           moduleId={mod.id}
           color={mod.color}
           onPlayAgain={() => { setSaved(false); reset() }}
+          got={state.score}
+          total={state.questions.length}
+          lang={mod.language}
         />
       </GameShell>
     )

@@ -44,6 +44,7 @@ export default function ListeningDrill() {
         body: JSON.stringify({ moduleId, level, avoid: avoided }),
       })
       const data = await res.json()
+      if (data.error === 'rateLimit') { setError("Lingo needs a rest! Come back in a bit. 🌟"); setPhase('listen'); return }
       if (data.phrase) {
         setQuestions(prev => [...prev, data])
         setAvoided(prev => [...prev, data.phrase].slice(-15))

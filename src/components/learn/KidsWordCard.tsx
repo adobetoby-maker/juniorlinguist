@@ -5,6 +5,7 @@ import { PURPLE, sansFont } from '../../constants'
 
 export interface WordCardData {
   headword: string
+  wordEmoji: string
   partOfSpeech: string
   phonetic: string
   baseDefinition: string
@@ -25,19 +26,24 @@ interface Props {
 export default function KidsWordCard({ word, sentence, x, y, moduleId, color, onClose }: Props) {
   const [card, setCard] = useState<WordCardData | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [added, setAdded] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const { dispatch, state } = useAppState()
   const { speak } = useSpeech()
 
-  // Position: below click, clamped to viewport
+  // Position the card near the tapped word, clamped to viewport
   const cardW = 300
+  const cardH = 300  // estimated
   let left = x - cardW / 2
+  let top = y + 14
   if (typeof window !== 'undefined') {
     left = Math.max(8, Math.min(left, window.innerWidth - cardW - 8))
+    // If card would go below viewport, flip it above the tap point
+    if (top + cardH > window.innerHeight - 8) {
+      top = Math.max(8, y - cardH - 14)
+    }
   }
-  const top = y + 12
 
   useEffect(() => {
     const exists = state.vocab.some(v => v.word === word)
@@ -47,7 +53,7 @@ export default function KidsWordCard({ word, sentence, x, y, moduleId, color, on
   useEffect(() => {
     let cancelled = false
     setLoading(true)
-    setError(false)
+    setError(null)
     setCard(null)
 
     fetch('/api/word-lookup', {
@@ -58,10 +64,11 @@ export default function KidsWordCard({ word, sentence, x, y, moduleId, color, on
       .then(r => r.json())
       .then(data => {
         if (cancelled) return
+        if (data.error === 'rateLimit') { setError("Lingo needs a rest! Come back in a bit. 🌟"); return }
         if (data.card) { setCard(data.card); dispatch({ type: 'ADD_XP', amount: 2 }) }
-        else setError(true)
+        else setError("Couldn't look that up. Tap to try again!")
       })
-      .catch(() => { if (!cancelled) setError(true) })
+      .catch(() => { if (!cancelled) setError("Couldn't look that up. Tap to try again!") })
       .finally(() => { if (!cancelled) setLoading(false) })
 
     return () => { cancelled = true }
@@ -101,13 +108,29 @@ export default function KidsWordCard({ word, sentence, x, y, moduleId, color, on
     >
       {/* Header */}
       <div style={{ backgroundColor: color, padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <div>
-          <p style={{ color: '#fff', fontFamily: '"Nunito", sans-serif', fontSize: 22, fontWeight: 800, margin: 0 }}>{word}</p>
-          {card && (
-            <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: '"Nunito", sans-serif', fontSize: 12, margin: 0 }}>
-              {card.partOfSpeech} {card.phonetic ? `· ${card.phonetic}` : ''}
-            </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {/* Emoji "picture" */}
+          {card?.wordEmoji && (
+            <div style={{
+              width: 48, height: 48, borderRadius: 12,
+              backgroundColor: 'rgba(255,255,255,0.2)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 28, flexShrink: 0,
+            }}>
+              {card.wordEmoji}
+            </div>
           )}
+          {!card?.wordEmoji && loading && (
+            <div style={{ width: 48, height: 48, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.15)', flexShrink: 0 }} />
+          )}
+          <div>
+            <p style={{ color: '#fff', fontFamily: '"Nunito", sans-serif', fontSize: 20, fontWeight: 800, margin: 0 }}>{word}</p>
+            {card && (
+              <p style={{ color: 'rgba(255,255,255,0.75)', fontFamily: '"Nunito", sans-serif', fontSize: 12, margin: 0 }}>
+                {card.partOfSpeech}{card.phonetic ? ` · ${card.phonetic}` : ''}
+              </p>
+            )}
+          </div>
         </div>
         <button
           onClick={onClose}
@@ -117,18 +140,19 @@ export default function KidsWordCard({ word, sentence, x, y, moduleId, color, on
 
       <div style={{ padding: '14px 16px' }}>
         {loading && (
-          <p style={{ ...sansFont, color: '#71717A', fontSize: 14, textAlign: 'center', margin: '8px 0' }}>
-            Looking it up...
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, margin: '12px 0' }}>
+            <span style={{ width: 14, height: 14, border: `2px solid ${color}40`, borderTopColor: color, borderRadius: '50%', display: 'inline-block', animation: 'spin 0.7s linear infinite' }} />
+            <p style={{ ...sansFont, color: '#71717A', fontSize: 13, margin: 0 }}>Looking it up…</p>
+          </div>
         )}
         {error && (
-          <p style={{ ...sansFont, color: '#DC2626', fontSize: 14 }}>
-            Couldn't look that up. Try again!
+          <p style={{ ...sansFont, color: '#DC2626', fontSize: 13, textAlign: 'center', margin: '10px 0' }}>
+            {error}
           </p>
         )}
         {card && (
           <>
-            <p style={{ ...sansFont, fontSize: 18, fontWeight: 700, color: '#18181B', margin: '0 0 10px' }}>
+            <p style={{ ...sansFont, fontSize: 17, fontWeight: 700, color: '#18181B', margin: '0 0 10px' }}>
               {card.baseDefinition}
             </p>
             <div style={{ backgroundColor: `${color}0d`, borderRadius: 10, padding: '10px 12px', marginBottom: 12, border: `1px solid ${color}20` }}>
@@ -143,8 +167,8 @@ export default function KidsWordCard({ word, sentence, x, y, moduleId, color, on
               <button
                 onClick={() => speak(card.headword)}
                 style={{
-                  flex: 1, height: 36, borderRadius: 18, border: `1.5px solid ${color}40`,
-                  backgroundColor: 'transparent', color: color, ...sansFont, fontSize: 13,
+                  flex: 1, height: 44, borderRadius: 22, border: `1.5px solid ${color}40`,
+                  backgroundColor: 'transparent', color: color, ...sansFont, fontSize: 14,
                   fontWeight: 700, cursor: 'pointer',
                 }}
               >
@@ -154,10 +178,10 @@ export default function KidsWordCard({ word, sentence, x, y, moduleId, color, on
                 onClick={addToVocab}
                 disabled={added}
                 style={{
-                  flex: 1, height: 36, borderRadius: 18, border: 'none',
+                  flex: 1, height: 44, borderRadius: 22, border: 'none',
                   backgroundColor: added ? '#D1FAE5' : color,
                   color: added ? '#065F46' : '#fff',
-                  ...sansFont, fontSize: 13, fontWeight: 700,
+                  ...sansFont, fontSize: 14, fontWeight: 700,
                   cursor: added ? 'default' : 'pointer',
                   opacity: added ? 0.9 : 1,
                 }}

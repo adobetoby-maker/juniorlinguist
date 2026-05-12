@@ -65,6 +65,9 @@ export default function WordMatchGame() {
           moduleId={mod.id}
           color={mod.color}
           onPlayAgain={() => { setSaved(false); reset() }}
+          got={mod.vocab.length - state.mistakes}
+          total={mod.vocab.length}
+          lang={mod.language}
         />
       </GameShell>
     )

@@ -79,6 +79,7 @@ export default function PenPal() {
         body: JSON.stringify({ moduleId, userLetter: text, letterCount: letters.length }),
       })
       const data = await res.json()
+      if (data.error === 'rateLimit') { setError("Lingo needs a rest! Come back in a bit. 🌟"); return }
       if (data.sentences?.length) {
         const newLetter: PenPalLetter = {
           id: Date.now().toString(),
@@ -324,37 +325,41 @@ export default function PenPal() {
             </button>
           </div>
 
-          {/* Letter body — bilingual sentence pairs with clickable words */}
-          <div className="px-5 py-4 space-y-3">
+          {/* Letter body — side-by-side bilingual columns */}
+          <div className="px-4 py-3 space-y-2">
             {letter.sentences.map((pair, idx) => {
               const isActive = (playing ? activeIdx : -1) === idx
               return (
                 <div
                   key={idx}
-                  className="rounded-xl overflow-hidden transition-all"
+                  className="rounded-xl overflow-hidden border-2 transition-all"
                   style={{
-                    border: isActive ? `2px solid ${module.color}` : '2px solid transparent',
-                    background: isActive ? `${module.color}08` : 'transparent',
+                    borderColor: isActive ? module.color : '#f3f4f6',
+                    background: isActive ? `${module.color}06` : 'white',
                   }}
                 >
-                  {/* Spanish — clickable */}
-                  <div className="px-3 pt-2 pb-1 flex items-start gap-2">
-                    <p className="flex-1 text-gray-800 font-medium leading-relaxed text-sm">
-                      <ClickableWord
-                        text={pair.es}
-                        color={module.color}
-                        onWord={(w, _s, x, y) => { stop(); setPopup({ word: w, sentence: pair.es, x, y }) }}
-                      />
-                    </p>
-                    <button
-                      onClick={() => { stop(); speak(pair.es, 'es'); setActiveIdx(idx); setTimeout(() => setActiveIdx(-1), 2500) }}
-                      className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-sm hover:bg-gray-100 transition-colors mt-0.5"
-                    >
-                      🔊
-                    </button>
+                  <div className="grid grid-cols-2">
+                    {/* Spanish column */}
+                    <div className="px-3 py-2.5 border-r border-gray-100 flex items-start gap-1.5">
+                      <p className="flex-1 text-gray-800 font-semibold leading-relaxed text-sm">
+                        <ClickableWord
+                          text={pair.es}
+                          color={module.color}
+                          onWord={(w, _s, x, y) => { stop(); setPopup({ word: w, sentence: pair.es, x, y }) }}
+                        />
+                      </p>
+                      <button
+                        onClick={() => { stop(); speak(pair.es, 'es'); setActiveIdx(idx); setTimeout(() => setActiveIdx(-1), 2500) }}
+                        className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm hover:bg-gray-100 transition-colors mt-0.5"
+                      >
+                        🔊
+                      </button>
+                    </div>
+                    {/* English column */}
+                    <div className="px-3 py-2.5 bg-gray-50">
+                      <p className="text-xs text-gray-400 leading-relaxed">{pair.en}</p>
+                    </div>
                   </div>
-                  {/* English translation */}
-                  <p className="px-3 pb-2 text-xs text-gray-400 leading-relaxed">{pair.en}</p>
                 </div>
               )
             })}

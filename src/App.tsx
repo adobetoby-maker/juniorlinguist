@@ -6,6 +6,8 @@ import Home from './pages/Home'
 import About from './pages/About'
 import SplashLoader from './components/learn/SplashLoader'
 
+const SnapshotPage      = lazy(() => import('./pages/SnapshotPage'))
+const OnboardingFlow    = lazy(() => import('./pages/OnboardingFlow'))
 const ModulePicker      = lazy(() => import('./pages/learn/ModulePicker'))
 const ModuleHub         = lazy(() => import('./pages/learn/ModuleHub'))
 const GamesHub          = lazy(() => import('./pages/learn/GamesHub'))
@@ -22,6 +24,8 @@ const DailyStory        = lazy(() => import('./pages/learn/DailyStory'))
 const VocabIntelligence = lazy(() => import('./pages/learn/VocabIntelligence'))
 const Dashboard         = lazy(() => import('./pages/learn/Dashboard'))
 const PenPal            = lazy(() => import('./pages/learn/PenPal'))
+const CognateBooster        = lazy(() => import('./pages/learn/CognateBooster'))
+const PronunciationCoach    = lazy(() => import('./pages/learn/PronunciationCoach'))
 
 export default function App() {
   return (
@@ -48,6 +52,8 @@ export default function App() {
               <Route path=":moduleId/memory" element={<MemoryGame />} />
               <Route path=":moduleId/daily-story" element={<DailyStory />} />
               <Route path=":moduleId/penpal" element={<PenPal />} />
+              <Route path=":moduleId/cognates" element={<CognateBooster />} />
+              <Route path=":moduleId/pronunciation" element={<PronunciationCoach />} />
             </Routes>
           </Suspense>
         }
@@ -61,6 +67,8 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
+              <Route path="/snapshot" element={<SnapshotPage />} />
+              <Route path="/onboarding" element={<OnboardingFlow />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <Footer />

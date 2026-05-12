@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import StarDisplay from './StarDisplay'
 
@@ -17,13 +18,32 @@ export default function ResultScreen({
   moduleId,
   color,
   onPlayAgain,
+  got,
+  total,
+  lang,
 }: {
   stars: 1 | 2 | 3
   subline: string
   moduleId: string
   color: string
   onPlayAgain: () => void
+  got?: number
+  total?: number
+  lang?: string
 }) {
+  const [copied, setCopied] = useState(false)
+  const snapshotUrl = (got !== undefined && total !== undefined && lang)
+    ? `${window.location.origin}/snapshot?m=${moduleId}&got=${got}&total=${total}&lang=${lang}`
+    : null
+
+  function handleShare() {
+    if (!snapshotUrl) return
+    navigator.clipboard.writeText(snapshotUrl).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16 text-center" style={{ backgroundColor: '#FDFCF9' }}>
       <div className="text-6xl mb-6">{stars === 3 ? '🏆' : stars === 2 ? '🌟' : '🎊'}</div>
@@ -43,6 +63,15 @@ export default function ResultScreen({
         >
           Play Again
         </button>
+        {snapshotUrl && (
+          <button
+            onClick={handleShare}
+            className="w-full py-4 rounded-full font-bold text-base transition-opacity hover:opacity-90"
+            style={{ backgroundColor: '#F5F3FF', color: '#7C3AED', fontFamily: '"Nunito", sans-serif', border: 'none', cursor: 'pointer' }}
+          >
+            {copied ? '✓ Link copied!' : '📤 Share your progress'}
+          </button>
+        )}
         <Link
           to={`/learn/${moduleId}`}
           className="w-full py-4 rounded-full font-bold text-base text-center transition-opacity hover:opacity-80"
