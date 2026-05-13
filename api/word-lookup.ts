@@ -23,17 +23,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const tool = {
     name: 'return_word_card',
-    description: `Return a simple, kid-friendly word card for the given ${langName} word.`,
+    description: `Return a kid-friendly word card for the given ${langName} word, including its morphological breakdown.`,
     input_schema: {
       type: 'object',
       properties: {
-        headword: { type: 'string', description: 'The base form of the word' },
-        wordEmoji: { type: 'string', description: 'One emoji that best pictures this word — pick the most visual, kid-recognizable emoji.' },
-        partOfSpeech: { type: 'string', description: 'noun, verb, adjective, adverb, etc.' },
-        phonetic: { type: 'string', description: 'Simple pronunciation guide in English phonetics, e.g. "mah-REE-poh-sah"' },
-        baseDefinition: { type: 'string', description: 'Simple English meaning in 8 words or less' },
-        exampleSentence: { type: 'string', description: `A natural ${langName} sentence a child would say` },
-        exampleTranslation: { type: 'string', description: 'English translation of the example sentence' },
+        headword:          { type: 'string', description: 'The base/infinitive form of the word' },
+        wordEmoji:         { type: 'string', description: 'One emoji that best pictures this word' },
+        partOfSpeech:      { type: 'string', description: 'noun, verb, adjective, adverb, etc.' },
+        phonetic:          { type: 'string', description: 'Pronunciation in English phonetics, e.g. "mah-REE-poh-sah"' },
+        baseDefinition:    { type: 'string', description: 'Simple English meaning in 8 words or less' },
+        exampleSentence:   { type: 'string', description: `A natural ${langName} sentence using the word as it appears in context` },
+        exampleTranslation:{ type: 'string', description: 'English translation of the example sentence' },
+        morphStem:         { type: 'string', description: 'The unchanging root/stem of the word. For verbs: the stem before the infinitive ending (e.g. "com" from "comer", "habl" from "hablar", "fin" from "finir"). For nouns/adjectives: root before gender ending (e.g. "gat" from "gato"). Omit for adverbs and particles.' },
+        morphEnding:       { type: 'string', description: 'The base-form ending that attaches to the stem (e.g. "er" for comer, "ar" for hablar, "o" for gato, "e" for forte). Must equal headword minus morphStem.' },
+        morphConjugations: {
+          type: 'array',
+          description: 'For verbs: 5 present-tense conjugations (yo/tú/él/nosotros/ellos). For nouns/adjectives: gender+number variants (masc.sg, fem.sg, masc.pl, fem.pl if applicable). Each entry: the inflected ending that replaces morphEnding, and the full complete word.',
+          items: {
+            type: 'object',
+            properties: {
+              ending: { type: 'string', description: 'Only the inflected suffix, e.g. "o", "es", "e", "emos", "en"' },
+              full:   { type: 'string', description: 'The complete inflected word, e.g. "como", "comes", "come", "comemos", "comen"' },
+            },
+            required: ['ending', 'full'],
+          },
+        },
+        commonPhrases: {
+          type: 'array',
+          description: `2–3 short natural ${langName} phrases a child would actually say using this word. No translation needed.`,
+          items: { type: 'string' },
+        },
       },
       required: ['headword', 'wordEmoji', 'partOfSpeech', 'phonetic', 'baseDefinition', 'exampleSentence', 'exampleTranslation'],
     },
@@ -45,8 +64,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
       body: JSON.stringify({
         model: 'claude-haiku-4-5',
-        max_tokens: 400,
-        system: `You are a friendly bilingual dictionary for ${langName} learners aged 7-14. Keep definitions short and simple.`,
+        max_tokens: 700,
+        system: `You are a friendly bilingual dictionary for ${langName} learners aged 7-14. Keep definitions short and simple. Always populate morphStem, morphEnding, morphConjugations, and commonPhrases — these help kids see how words change.`,
         tools: [tool],
         tool_choice: { type: 'tool', name: 'return_word_card' },
         messages: [{ role: 'user', content: `${langName} word: "${word}"\nContext sentence: "${sentence}"` }],

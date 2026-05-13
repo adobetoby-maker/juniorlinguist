@@ -11,6 +11,10 @@ export interface WordCardData {
   baseDefinition: string
   exampleSentence: string
   exampleTranslation: string
+  morphStem?: string
+  morphEnding?: string
+  morphConjugations?: Array<{ ending: string; full: string }>
+  commonPhrases?: string[]
 }
 
 interface Props {
@@ -33,8 +37,8 @@ export default function KidsWordCard({ word, sentence, x, y, moduleId, color, on
   const { speak } = useSpeech()
 
   // Position the card near the tapped word, clamped to viewport
-  const cardW = 300
-  const cardH = 300  // estimated
+  const cardW = 320
+  const cardH = 460  // estimated
   let left = x - cardW / 2
   let top = y + 14
   if (typeof window !== 'undefined') {
@@ -155,6 +159,52 @@ export default function KidsWordCard({ word, sentence, x, y, moduleId, color, on
             <p style={{ ...sansFont, fontSize: 17, fontWeight: 700, color: '#18181B', margin: '0 0 10px' }}>
               {card.baseDefinition}
             </p>
+
+            {/* Morphology breakdown */}
+            {card.morphStem && card.morphEnding && (
+              <div style={{ marginBottom: 12 }}>
+                {/* Base form split */}
+                <p style={{ ...sansFont, fontSize: 11, fontWeight: 700, color: '#A1A1AA', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 6px' }}>
+                  How it changes
+                </p>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 0, marginBottom: 8 }}>
+                  <span style={{ ...sansFont, fontSize: 22, fontWeight: 800, color: '#18181B' }}>{card.morphStem}</span>
+                  <span style={{ ...sansFont, fontSize: 22, fontWeight: 800, color }}>·{card.morphEnding}</span>
+                </div>
+                {/* Conjugation chips */}
+                {card.morphConjugations && card.morphConjugations.length > 0 && (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
+                    {card.morphConjugations.map(({ ending, full }) => {
+                      const stem = full.slice(0, full.length - ending.length)
+                      return (
+                        <span key={full} style={{
+                          backgroundColor: `${color}12`, borderRadius: 8,
+                          padding: '3px 8px', ...sansFont, fontSize: 14, fontWeight: 700,
+                        }}>
+                          <span style={{ color: '#18181B' }}>{stem}</span>
+                          <span style={{ color }}>·{ending}</span>
+                        </span>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Common phrases */}
+            {card.commonPhrases && card.commonPhrases.length > 0 && (
+              <div style={{ marginBottom: 10 }}>
+                <p style={{ ...sansFont, fontSize: 11, fontWeight: 700, color: '#A1A1AA', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 5px' }}>
+                  You might say
+                </p>
+                {card.commonPhrases.map((phrase, i) => (
+                  <p key={i} style={{ ...sansFont, fontSize: 13, color: '#3F3F46', margin: '0 0 2px' }}>
+                    {phrase}
+                  </p>
+                ))}
+              </div>
+            )}
+
             <div style={{ backgroundColor: `${color}0d`, borderRadius: 10, padding: '10px 12px', marginBottom: 12, border: `1px solid ${color}20` }}>
               <p style={{ ...sansFont, fontSize: 13, fontWeight: 700, color: '#18181B', margin: '0 0 2px' }}>
                 "{card.exampleSentence}"
