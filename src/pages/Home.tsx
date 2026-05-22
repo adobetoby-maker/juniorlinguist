@@ -122,10 +122,28 @@ export default function Home() {
             </h1>
 
             <p className="max-w-2xl text-lg leading-relaxed mb-4" style={{ ...sansFont, color: MUTED, fontSize: 'clamp(1rem, 2vw, 1.2rem)' }}>
-              Nine topics built around the world kids actually care about — animals, sports, science, food,
+              25 topics built around the world kids actually care about — animals, sports, science, food,
               travel, and more. An AI practice partner that talks back, asks questions, and makes it real.
               No worksheets. No memorizing lists.
             </p>
+
+            <div className="flex flex-wrap gap-2 mb-8">
+              {[
+                { flag: '🇪🇸', lang: 'Spanish', count: 25 },
+                { flag: '🇫🇷', lang: 'French', count: 9 },
+                { flag: '🇯🇵', lang: 'Japanese', count: 9 },
+                { flag: '🇮🇹', lang: 'Italian', count: 9 },
+                { flag: '🇧🇷', lang: 'Portuguese', count: 9 },
+              ].map(({ flag, lang, count }) => (
+                <span
+                  key={lang}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
+                  style={{ ...sansFont, backgroundColor: 'rgba(0,0,0,0.05)', color: '#3F3F46', border: '1px solid rgba(0,0,0,0.08)' }}
+                >
+                  {flag} {lang} <span style={{ color: MUTED }}>·</span> <span style={{ color: PURPLE }}>{count} topics</span>
+                </span>
+              ))}
+            </div>
 
             <p className="max-w-xl text-base leading-relaxed mb-10" style={{ ...sansFont, color: '#71717A' }}>
               The same AI engine used by nurses, surgeons, and construction foremen — built from the ground
@@ -161,7 +179,7 @@ export default function Home() {
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 { stat: '7–14', label: 'The prime window for second language acquisition — children in this range absorb language faster than at any other time in life', source: 'Cognitive science research' },
-                { stat: '20+', label: 'Countries where Spanish is the official language — the most useful second language a child can learn in the Americas', source: 'United Nations' },
+                { stat: '5', label: 'Languages to explore — Spanish, French, Japanese, Italian, and Portuguese — all taught the same way, with topics kids actually care about', source: 'Junior Linguist' },
                 { stat: 'Weeks', label: 'not years — to reach conversational basics when vocabulary is connected to topics the learner genuinely cares about', source: 'Junior Linguist method' },
               ].map(item => (
                 <div key={item.stat} className="text-center">
@@ -182,7 +200,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <FadeIn>
             <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-full" style={{ backgroundColor: `${PURPLE}14` }}>
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ ...sansFont, color: PURPLE }}>Nine topics</span>
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ ...sansFont, color: PURPLE }}>🇪🇸 25 Spanish topics</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ ...displayFont, color: '#18181B' }}>
               Their world.<br />
@@ -191,11 +209,12 @@ export default function Home() {
             <p className="max-w-2xl text-base leading-relaxed mb-16" style={{ ...sansFont, color: MUTED }}>
               Click any topic to see the vocabulary, read a sample sentence, and start an AI practice session.
               Every module is built around things kids already know and love — so new words stick.
+              French, Japanese, Italian, and Portuguese are available in the app.
             </p>
           </FadeIn>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {KIDS_MODULES.map((mod, i) => (
+            {KIDS_MODULES.filter(m => m.language === 'es').map((mod, i) => (
               <FadeIn key={mod.id} delay={i * 40}>
                 <ModuleCard mod={mod} />
               </FadeIn>
@@ -223,7 +242,7 @@ export default function Home() {
                 ask questions, correct gently, and meet them exactly where they are.
               </p>
               <p>
-                The nine topic modules map naturally onto typical middle-grade curriculum areas: science,
+                The 25 topic modules map naturally onto typical middle-grade curriculum areas: science,
                 social studies, arts, health, and geography. A student working through the Animals & Nature
                 module is also building science vocabulary. The Travel & Places module reinforces world
                 geography. The Family & Home module introduces cultural context alongside language.

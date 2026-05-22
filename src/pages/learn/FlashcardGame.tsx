@@ -94,7 +94,7 @@ export default function FlashcardGame() {
         <ProgressBar value={progress} color={mod.color} className="mb-6" />
         <p className="text-center text-sm mb-4" style={{ ...sansFont, color: '#71717A' }}>{state.gotIt} of {state.total} learned</p>
         <div className="mb-6" onTouchStart={e => { touchStartX.current = e.touches[0].clientX; touchStartY.current = e.touches[0].clientY }} onTouchEnd={e => { if (touchStartX.current === null || touchStartY.current === null) return; const dx = e.changedTouches[0].clientX - touchStartX.current; const dy = e.changedTouches[0].clientY - touchStartY.current; touchStartX.current = null; touchStartY.current = null; if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return; if (!state.flipped) { flip(); return }; if (dx > 0) handleGotIt(); else handleNotYet() }}>
-          {current && <FlipCard front={current.en} back={current.es} flipped={state.flipped} color={mod.color} onClick={() => !state.flipped && flip()} language={langLabel} onPronounce={handlePronounce} pronouncing={pronouncing} />}
+          {current && <FlipCard front={current.en} back={current.es} flipped={state.flipped} color={mod.color} onClick={() => !state.flipped && flip()} language={langLabel} onPronounce={handlePronounce} pronouncing={pronouncing} gearEmoji={current.emoji} />}
         </div>
         {state.flipped && (
           <div className="flex gap-2">

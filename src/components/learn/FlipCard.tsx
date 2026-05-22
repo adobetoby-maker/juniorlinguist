@@ -9,19 +9,23 @@ function SpeakerIcon({ size = 14 }: { size?: number }) {
 }
 
 export default function FlipCard({
-  front, back, flipped, color, onClick, language = 'Spanish', onPronounce, pronouncing = false,
+  front, back, flipped, color, onClick, language = 'Spanish', onPronounce, pronouncing = false, gearEmoji,
 }: {
   front: string; back: string; flipped: boolean; color: string
   onClick: () => void; language?: string
   onPronounce?: (word: string, face: 'front' | 'back') => void
   pronouncing?: boolean
+  gearEmoji?: string
 }) {
   return (
-    <div className="flip-card w-full cursor-pointer select-none" style={{ height: 220 }} onClick={onClick} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && onClick()}>
+    <div className="flip-card w-full cursor-pointer select-none" style={{ height: gearEmoji ? 260 : 220 }} onClick={onClick} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && onClick()}>
       <div className={`flip-inner w-full h-full${flipped ? ' flipped' : ''}`}>
-        <div className="flip-face absolute inset-0 rounded-2xl flex flex-col items-center justify-center gap-3 p-6" style={{ backgroundColor: '#fff', border: `2px solid ${color}30`, boxShadow: `0 4px 24px ${color}18` }}>
-          <p className="text-xs font-bold uppercase tracking-widest" style={{ color, fontFamily: '"Nunito", sans-serif' }}>English</p>
-          <p className="text-3xl font-bold text-center" style={{ color: '#18181B', fontFamily: '"Nunito", sans-serif' }}>{front}</p>
+        <div className="flip-face absolute inset-0 rounded-2xl flex flex-col items-center justify-center gap-2 p-6" style={{ backgroundColor: '#fff', border: `2px solid ${color}30`, boxShadow: `0 4px 24px ${color}18` }}>
+          {gearEmoji
+            ? <span style={{ fontSize: 52, lineHeight: 1 }}>{gearEmoji}</span>
+            : <p className="text-xs font-bold uppercase tracking-widest" style={{ color, fontFamily: '"Nunito", sans-serif' }}>English</p>
+          }
+          <p className="text-2xl font-bold text-center" style={{ color: '#18181B', fontFamily: '"Nunito", sans-serif' }}>{front}</p>
           <div className="flex items-center gap-3">
             <p className="text-sm font-semibold" style={{ color: '#71717A', fontFamily: '"Nunito", sans-serif' }}>Tap to reveal {language} →</p>
             {onPronounce && (
