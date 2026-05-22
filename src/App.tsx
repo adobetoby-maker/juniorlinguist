@@ -5,6 +5,7 @@ import Footer from './components/Footer'
 import Home from './pages/Home'
 import About from './pages/About'
 import SplashLoader from './components/learn/SplashLoader'
+import UpdateBanner from './components/UpdateBanner'
 
 const SnapshotPage      = lazy(() => import('./pages/SnapshotPage'))
 const OnboardingFlow    = lazy(() => import('./pages/OnboardingFlow'))
@@ -29,52 +30,55 @@ const PronunciationCoach    = lazy(() => import('./pages/learn/PronunciationCoac
 
 export default function App() {
   return (
-    <Routes>
-      {/* /learn/* — game app, no marketing nav/footer */}
-      <Route
-        path="/learn/*"
-        element={
-          <Suspense fallback={<SplashLoader />}>
-            <Routes>
-              <Route index element={<ModulePicker />} />
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path=":moduleId/vocab" element={<VocabIntelligence />} />
-              <Route path=":moduleId" element={<ModuleHub />} />
-              <Route path=":moduleId/games" element={<GamesHub />} />
-              <Route path=":moduleId/flashcards" element={<FlashcardGame />} />
-              <Route path=":moduleId/match" element={<WordMatchGame />} />
-              <Route path=":moduleId/quiz" element={<QuizGame />} />
-              <Route path=":moduleId/tutor" element={<TutorChat />} />
-              <Route path=":moduleId/reader" element={<KidsReader />} />
-              <Route path=":moduleId/speak" element={<SpeakLearn />} />
-              <Route path=":moduleId/listening" element={<ListeningDrill />} />
-              <Route path=":moduleId/sentence-build" element={<SentenceBuild />} />
-              <Route path=":moduleId/memory" element={<MemoryGame />} />
-              <Route path=":moduleId/daily-story" element={<DailyStory />} />
-              <Route path=":moduleId/penpal" element={<PenPal />} />
-              <Route path=":moduleId/cognates" element={<CognateBooster />} />
-              <Route path=":moduleId/pronunciation" element={<PronunciationCoach />} />
-            </Routes>
-          </Suspense>
-        }
-      />
-      {/* Marketing site */}
-      <Route
-        path="*"
-        element={
-          <>
-            <Nav />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/snapshot" element={<SnapshotPage />} />
-              <Route path="/onboarding" element={<OnboardingFlow />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-            <Footer />
-          </>
-        }
-      />
-    </Routes>
+    <>
+      <UpdateBanner />
+      <Routes>
+        {/* /learn/* — game app, no marketing nav/footer */}
+        <Route
+          path="/learn/*"
+          element={
+            <Suspense fallback={<SplashLoader />}>
+              <Routes>
+                <Route index element={<ModulePicker />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path=":moduleId/vocab" element={<VocabIntelligence />} />
+                <Route path=":moduleId" element={<ModuleHub />} />
+                <Route path=":moduleId/games" element={<GamesHub />} />
+                <Route path=":moduleId/flashcards" element={<FlashcardGame />} />
+                <Route path=":moduleId/match" element={<WordMatchGame />} />
+                <Route path=":moduleId/quiz" element={<QuizGame />} />
+                <Route path=":moduleId/tutor" element={<TutorChat />} />
+                <Route path=":moduleId/reader" element={<KidsReader />} />
+                <Route path=":moduleId/speak" element={<SpeakLearn />} />
+                <Route path=":moduleId/listening" element={<ListeningDrill />} />
+                <Route path=":moduleId/sentence-build" element={<SentenceBuild />} />
+                <Route path=":moduleId/memory" element={<MemoryGame />} />
+                <Route path=":moduleId/daily-story" element={<DailyStory />} />
+                <Route path=":moduleId/penpal" element={<PenPal />} />
+                <Route path=":moduleId/cognates" element={<CognateBooster />} />
+                <Route path=":moduleId/pronunciation" element={<PronunciationCoach />} />
+              </Routes>
+            </Suspense>
+          }
+        />
+        {/* Marketing site */}
+        <Route
+          path="*"
+          element={
+            <>
+              <Nav />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/snapshot" element={<SnapshotPage />} />
+                <Route path="/onboarding" element={<OnboardingFlow />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+              <Footer />
+            </>
+          }
+        />
+      </Routes>
+    </>
   )
 }
