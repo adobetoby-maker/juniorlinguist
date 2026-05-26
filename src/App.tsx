@@ -4,8 +4,14 @@ import Nav from './components/Nav'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import About from './pages/About'
+import Pricing from './pages/Pricing'
+import Login from './pages/Login'
+import SubscribeSuccess from './pages/SubscribeSuccess'
 import SplashLoader from './components/learn/SplashLoader'
 import UpdateBanner from './components/UpdateBanner'
+import { GoogleAnalytics } from './components/GoogleAnalytics'
+import { SubscriptionProvider } from './state/subscription-state'
+import { SubscriptionGate } from './components/SubscriptionGate'
 
 const SnapshotPage      = lazy(() => import('./pages/SnapshotPage'))
 const OnboardingFlow    = lazy(() => import('./pages/OnboardingFlow'))
@@ -30,37 +36,46 @@ const PronunciationCoach    = lazy(() => import('./pages/learn/PronunciationCoac
 
 export default function App() {
   return (
-    <>
+    <SubscriptionProvider>
+      <GoogleAnalytics />
       <UpdateBanner />
       <Routes>
-        {/* /learn/* — game app, no marketing nav/footer */}
+        {/* /learn/* — gated game app, no marketing nav/footer */}
         <Route
           path="/learn/*"
           element={
             <Suspense fallback={<SplashLoader />}>
-              <Routes>
-                <Route index element={<ModulePicker />} />
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path=":moduleId/vocab" element={<VocabIntelligence />} />
-                <Route path=":moduleId" element={<ModuleHub />} />
-                <Route path=":moduleId/games" element={<GamesHub />} />
-                <Route path=":moduleId/flashcards" element={<FlashcardGame />} />
-                <Route path=":moduleId/match" element={<WordMatchGame />} />
-                <Route path=":moduleId/quiz" element={<QuizGame />} />
-                <Route path=":moduleId/tutor" element={<TutorChat />} />
-                <Route path=":moduleId/reader" element={<KidsReader />} />
-                <Route path=":moduleId/speak" element={<SpeakLearn />} />
-                <Route path=":moduleId/listening" element={<ListeningDrill />} />
-                <Route path=":moduleId/sentence-build" element={<SentenceBuild />} />
-                <Route path=":moduleId/memory" element={<MemoryGame />} />
-                <Route path=":moduleId/daily-story" element={<DailyStory />} />
-                <Route path=":moduleId/penpal" element={<PenPal />} />
-                <Route path=":moduleId/cognates" element={<CognateBooster />} />
-                <Route path=":moduleId/pronunciation" element={<PronunciationCoach />} />
-              </Routes>
+              <SubscriptionGate>
+                <Routes>
+                  <Route index element={<ModulePicker />} />
+                  <Route path="dashboard" element={<Dashboard />} />
+                  <Route path=":moduleId/vocab" element={<VocabIntelligence />} />
+                  <Route path=":moduleId" element={<ModuleHub />} />
+                  <Route path=":moduleId/games" element={<GamesHub />} />
+                  <Route path=":moduleId/flashcards" element={<FlashcardGame />} />
+                  <Route path=":moduleId/match" element={<WordMatchGame />} />
+                  <Route path=":moduleId/quiz" element={<QuizGame />} />
+                  <Route path=":moduleId/tutor" element={<TutorChat />} />
+                  <Route path=":moduleId/reader" element={<KidsReader />} />
+                  <Route path=":moduleId/speak" element={<SpeakLearn />} />
+                  <Route path=":moduleId/listening" element={<ListeningDrill />} />
+                  <Route path=":moduleId/sentence-build" element={<SentenceBuild />} />
+                  <Route path=":moduleId/memory" element={<MemoryGame />} />
+                  <Route path=":moduleId/daily-story" element={<DailyStory />} />
+                  <Route path=":moduleId/penpal" element={<PenPal />} />
+                  <Route path=":moduleId/cognates" element={<CognateBooster />} />
+                  <Route path=":moduleId/pronunciation" element={<PronunciationCoach />} />
+                </Routes>
+              </SubscriptionGate>
             </Suspense>
           }
         />
+
+        {/* Subscription flow — no nav/footer */}
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/subscribe/success" element={<SubscribeSuccess />} />
+
         {/* Marketing site */}
         <Route
           path="*"
@@ -79,6 +94,6 @@ export default function App() {
           }
         />
       </Routes>
-    </>
+    </SubscriptionProvider>
   )
 }
