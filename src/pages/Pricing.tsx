@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { PURPLE, sansFont, displayFont, SURFACE } from '../constants'
 import { useSubscription } from '../state/subscription-state'
 
-const REGULAR_LINK = 'https://buy.stripe.com/7sY14pce701nguBaiybfO0b'
+const MONTHLY_LINK = 'https://buy.stripe.com/7sY14pce701nguBaiybfO0b'
+const ANNUAL_LINK = 'https://buy.stripe.com/bJe8wRgun8xT6U1eyObfO0d'
 const LT50_LINK = 'https://buy.stripe.com/eVqeVf0vpcO9guB2Q6bfO0c'
 
 const FEATURES = [
@@ -18,7 +19,10 @@ const FEATURES = [
 
 export default function Pricing() {
   const { isActive, status } = useSubscription()
+  const [billing, setBilling] = useState<'monthly' | 'annual'>('annual')
   const [showLT, setShowLT] = useState(false)
+
+  const checkoutLink = billing === 'annual' ? ANNUAL_LINK : MONTHLY_LINK
 
   return (
     <div className="min-h-screen px-4 py-16" style={{ backgroundColor: '#FDFCF9' }}>
@@ -55,12 +59,60 @@ export default function Pricing() {
 
         {!isActive && (
           <>
+            {/* Billing toggle */}
+            <div className="flex justify-center mb-6">
+              <div className="inline-flex rounded-xl p-1 text-sm" style={{ backgroundColor: '#F4F0EB', border: '1px solid rgba(0,0,0,0.08)' }}>
+                <button
+                  onClick={() => setBilling('monthly')}
+                  className="rounded-lg px-4 py-2 text-sm font-medium transition-all"
+                  style={{
+                    ...sansFont,
+                    backgroundColor: billing === 'monthly' ? '#fff' : 'transparent',
+                    color: billing === 'monthly' ? '#18181B' : '#71717A',
+                    boxShadow: billing === 'monthly' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                  }}
+                >
+                  Monthly
+                </button>
+                <button
+                  onClick={() => setBilling('annual')}
+                  className="rounded-lg px-4 py-2 text-sm font-medium transition-all flex items-center gap-1.5"
+                  style={{
+                    ...sansFont,
+                    backgroundColor: billing === 'annual' ? '#fff' : 'transparent',
+                    color: billing === 'annual' ? '#18181B' : '#71717A',
+                    boxShadow: billing === 'annual' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                  }}
+                >
+                  Annual
+                  <span className="rounded text-[9px] font-bold px-1.5 py-0.5" style={{ backgroundColor: `${PURPLE}20`, color: PURPLE }}>
+                    SAVE 34%
+                  </span>
+                </button>
+              </div>
+            </div>
+
             <div className="rounded-2xl overflow-hidden mb-4" style={{ border: `2px solid ${PURPLE}40`, backgroundColor: '#fff' }}>
               <div className="px-6 py-5" style={{ background: `linear-gradient(135deg, ${PURPLE}14 0%, transparent 100%)`, borderBottom: `1px solid ${PURPLE}20` }}>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-bold" style={{ ...displayFont, color: '#18181B' }}>$9.99</span>
-                  <span className="text-sm" style={{ ...sansFont, color: '#71717A' }}>/month</span>
+                  {billing === 'annual' ? (
+                    <>
+                      <span className="text-4xl font-bold" style={{ ...displayFont, color: '#18181B' }}>$79</span>
+                      <span className="text-sm" style={{ ...sansFont, color: '#71717A' }}>/year</span>
+                      <span className="text-xs line-through" style={{ ...sansFont, color: '#A1A1AA' }}>$119.88</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-4xl font-bold" style={{ ...displayFont, color: '#18181B' }}>$9.99</span>
+                      <span className="text-sm" style={{ ...sansFont, color: '#71717A' }}>/month</span>
+                    </>
+                  )}
                 </div>
+                {billing === 'annual' && (
+                  <p className="text-xs mt-1 font-semibold" style={{ ...sansFont, color: PURPLE }}>
+                    ~$6.58/month · Best value
+                  </p>
+                )}
                 <p className="text-xs mt-1" style={{ ...sansFont, color: '#71717A' }}>First 7 days free — cancel anytime</p>
               </div>
               <div className="px-6 py-5">
@@ -73,7 +125,7 @@ export default function Pricing() {
                   ))}
                 </ul>
                 <a
-                  href={REGULAR_LINK}
+                  href={checkoutLink}
                   className="flex items-center justify-center w-full rounded-full py-3.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
                   style={{ ...sansFont, backgroundColor: PURPLE }}
                 >

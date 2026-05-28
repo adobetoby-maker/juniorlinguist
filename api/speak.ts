@@ -56,7 +56,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           messages: [{ role: 'user', content: `What the child said in ${langName}: "${userText}"` }],
         }),
       })
-      const d = await r.json()
+      const d = await r.json() as any
       const toolUse = d.content?.find((b: { type: string }) => b.type === 'tool_use')
       return res.status(200).json({ tip: toolUse?.input?.tip ?? null, correct: toolUse?.input?.correct ?? true })
     } catch { return res.status(200).json({ tip: null, correct: true }) }
@@ -90,7 +90,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         messages: messages.slice(-10),
       }),
     })
-    const d = await r.json()
+    const d = await r.json() as any
     const message = d.content?.[0]?.text ?? (defaultGreeting[language] ?? '¡Hola!')
     return res.status(200).json({ message })
   } catch (err) {

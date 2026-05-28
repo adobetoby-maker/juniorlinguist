@@ -133,7 +133,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         messages: [{ role: 'user', content: 'Write the pen pal reply letter.' }],
       }),
     })
-    const d = await r.json()
+    const d = await r.json() as any
     const toolUse = d.content?.find((b: { type: string }) => b.type === 'tool_use')
     if (!toolUse) return res.status(500).json({ error: 'No reply generated' })
     return res.status(200).json({ ...toolUse.input, friend })

@@ -7,12 +7,20 @@ export default function FadeIn({ children, delay = 0 }: { children: ReactNode; d
   useEffect(() => {
     const el = ref.current
     if (!el) return
+    // Fallback: guarantee visibility after 800ms for crawlers + screenshot tooling
+    const fallback = setTimeout(() => setVisible(true), 800)
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect() } },
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          clearTimeout(fallback)
+          setVisible(true)
+          observer.disconnect()
+        }
+      },
       { threshold: 0.08 }
     )
     observer.observe(el)
-    return () => observer.disconnect()
+    return () => { observer.disconnect(); clearTimeout(fallback) }
   }, [])
 
   return (

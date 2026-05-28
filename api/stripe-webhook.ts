@@ -22,7 +22,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).end()
 
   const sig = req.headers['stripe-signature'] as string
-  let event: Stripe.Event
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let event: any
   try {
     const body = await new Promise<string>((resolve, reject) => {
       let raw = ''

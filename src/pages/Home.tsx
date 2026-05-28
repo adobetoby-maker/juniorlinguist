@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { APP_URL, displayFont, sansFont, PURPLE, TEAL, AMBER, SURFACE, MUTED, ADULT_URL } from '../constants'
 import { KIDS_MODULES, type KidsModule } from '../data/kidsModules'
 import FadeIn from '../components/FadeIn'
+import EmailCaptureSection from '../components/EmailCaptureSection'
 
 function ModuleCard({ mod }: { mod: KidsModule }) {
   const [open, setOpen] = useState(false)
@@ -222,6 +223,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Email capture lead magnet */}
+      <FadeIn>
+        <EmailCaptureSection />
+      </FadeIn>
 
       {/* Homeschool section */}
       <FadeIn>
