@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { KIDS_MODULES } from '../../data/kidsModules'
 import { getAllProgress, fluencyPct } from '../../state/progress'
 import { useAppState } from '../../state/AppState'
@@ -17,9 +17,16 @@ const LANG_TABS = [
 
 export default function ModulePicker() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   useEffect(() => {
     if (!localStorage.getItem('jl_onboarded_v1')) navigate('/onboarding', { replace: true })
   }, [navigate])
+  useEffect(() => {
+    const moduleId = searchParams.get('module')
+    if (moduleId && KIDS_MODULES.some(m => m.id === moduleId)) {
+      navigate(`/learn/${moduleId}`, { replace: true })
+    }
+  }, [searchParams, navigate])
 
   const savedLang = localStorage.getItem('jl_default_lang') as 'es' | 'fr' | 'ja' | 'it' | 'pt' | null
   const [lang, setLang] = useState<'es' | 'fr' | 'ja' | 'it' | 'pt'>(savedLang ?? 'es')

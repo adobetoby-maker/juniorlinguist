@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { APP_URL, ADULT_URL, sansFont, PURPLE, MUTED } from '../constants'
+import { ADULT_URL, sansFont, PURPLE, MUTED } from '../constants'
 
 export default function Footer() {
   return (
@@ -19,11 +19,17 @@ export default function Footer() {
             <a href={ADULT_URL} target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70" style={{ color: MUTED }}>
               Language Threshold (Adult)
             </a>
-            <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70" style={{ color: MUTED }}>
-              Start Learning
-            </a>
+            <Link to="/learn" className="transition-opacity hover:opacity-70" style={{ color: MUTED }}>
+              Start Your Free Trial →
+            </Link>
             <Link to="/about" className="transition-opacity hover:opacity-70" style={{ color: MUTED }}>
               About
+            </Link>
+            <Link to="/privacy" className="transition-opacity hover:opacity-70" style={{ color: MUTED }}>
+              Privacy
+            </Link>
+            <Link to="/terms" className="transition-opacity hover:opacity-70" style={{ color: MUTED }}>
+              Terms
             </Link>
           </div>
         </div>

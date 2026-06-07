@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { APP_URL, displayFont, sansFont, PURPLE, TEAL, AMBER, SURFACE, MUTED, ADULT_URL } from '../constants'
+import { Link } from 'react-router-dom'
+import { displayFont, sansFont, PURPLE, TEAL, AMBER, SURFACE, MUTED, ADULT_URL } from '../constants'
 import { KIDS_MODULES, type KidsModule } from '../data/kidsModules'
 import FadeIn from '../components/FadeIn'
 import EmailCaptureSection from '../components/EmailCaptureSection'
@@ -81,15 +82,13 @@ function ModuleCard({ mod }: { mod: KidsModule }) {
             <p className="text-xs leading-relaxed" style={{ ...sansFont, color: '#18181B' }}>{mod.funFact}</p>
           </div>
 
-          <a
-            href={`${APP_URL}?module=${mod.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to={`/learn?module=${mod.id}`}
             className="inline-block w-full text-center py-3 rounded-full font-bold text-sm transition-opacity hover:opacity-90"
             style={{ ...sansFont, backgroundColor: mod.color, color: '#fff' }}
           >
             Practice {mod.title} →
-          </a>
+          </Link>
         </div>
       )}
     </div>
@@ -152,17 +151,15 @@ export default function Home() {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <a
-                href={APP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/learn"
                 className="px-8 py-4 rounded-full font-bold text-base transition-opacity hover:opacity-90"
                 style={{ ...sansFont, backgroundColor: PURPLE, color: '#fff' }}
               >
-                Start Learning — It's Free →
-              </a>
+                Start Your Free Trial →
+              </Link>
               <a
-                href="#modules"
+                href="/#modules"
                 className="px-8 py-4 rounded-full font-bold text-base transition-opacity hover:opacity-80"
                 style={{ ...sansFont, color: '#18181B', border: '2px solid rgba(0,0,0,0.12)' }}
               >
@@ -333,15 +330,13 @@ export default function Home() {
               <p className="text-sm mb-4" style={{ ...sansFont, color: MUTED }}>
                 The app teaches hundreds more — in context, with an AI that talks back and corrects gently.
               </p>
-              <a
-                href={APP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/learn"
                 className="inline-block px-8 py-3 rounded-full font-bold text-sm transition-opacity hover:opacity-90"
                 style={{ ...sansFont, backgroundColor: PURPLE, color: '#fff' }}
               >
                 Practice all of these in the app →
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -420,17 +415,15 @@ export default function Home() {
               Don't wait for the perfect curriculum or the right semester. Start with one topic.
               Ten minutes a day. The language will follow.
             </p>
-            <a
-              href={APP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/learn"
               className="inline-block px-10 py-4 rounded-full font-bold text-base transition-opacity hover:opacity-90 mb-4"
               style={{ ...sansFont, backgroundColor: '#fff', color: PURPLE }}
             >
-              Start Learning — It's Free →
-            </a>
+              Start Your Free Trial →
+            </Link>
             <p className="text-xs" style={{ ...sansFont, color: 'rgba(255,255,255,0.6)' }}>
-              No signup required. No credit card. Pick a topic and go.
+              7-day free trial. No credit card required during trial.
             </p>
           </div>
         </section>

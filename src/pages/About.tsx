@@ -3,9 +3,9 @@ import { PURPLE, ADULT_URL, sansFont, MUTED } from '../constants'
 
 const STAT_CARDS = [
   { value: '7–14', label: 'Target age range' },
-  { value: '9', label: 'Topic modules' },
+  { value: '25', label: 'Spanish topics' },
   { value: '90+', label: 'Vocabulary words' },
-  { value: '100%', label: 'Free to explore' },
+  { value: '7-day', label: 'Free trial' },
 ]
 
 export default function About() {

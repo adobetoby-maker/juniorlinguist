@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { APP_URL, sansFont, PURPLE } from '../constants'
+import { sansFont, PURPLE } from '../constants'
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
@@ -46,15 +46,13 @@ export default function Nav() {
           <Link to="/about" className="text-sm font-semibold transition-opacity hover:opacity-70" style={{ ...sansFont, color: '#71717A' }}>
             About
           </Link>
-          <a
-            href={APP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/learn"
             className="px-5 py-2 rounded-full font-bold text-sm transition-opacity hover:opacity-90"
             style={{ ...sansFont, backgroundColor: PURPLE, color: '#fff' }}
           >
             Start Learning →
-          </a>
+          </Link>
         </div>
 
         {/* Mobile hamburger */}
@@ -75,9 +73,9 @@ export default function Nav() {
           <a href="/#modules" className="py-3.5 text-base font-semibold" style={{ ...sansFont, color: '#71717A', borderBottom: '1px solid rgba(0,0,0,0.05)' }} onClick={closeMobile}>Topics</a>
           <a href="/#homeschool" className="py-3.5 text-base font-semibold" style={{ ...sansFont, color: '#71717A', borderBottom: '1px solid rgba(0,0,0,0.05)' }} onClick={closeMobile}>Homeschool</a>
           <Link to="/about" className="py-3.5 text-base font-semibold" style={{ ...sansFont, color: '#71717A', borderBottom: '1px solid rgba(0,0,0,0.05)' }} onClick={closeMobile}>About</Link>
-          <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="mt-5 py-3.5 rounded-full font-bold text-base text-center" style={{ ...sansFont, backgroundColor: PURPLE, color: '#fff' }} onClick={closeMobile}>
+          <Link to="/learn" className="mt-5 py-3.5 rounded-full font-bold text-base text-center" style={{ ...sansFont, backgroundColor: PURPLE, color: '#fff' }} onClick={closeMobile}>
             Start Learning →
-          </a>
+          </Link>
         </div>
       )}
     </nav>

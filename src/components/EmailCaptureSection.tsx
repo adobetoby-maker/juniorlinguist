@@ -11,7 +11,17 @@ export default function EmailCaptureSection() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!email.trim()) return
+    if (!email.trim()) {
+      setErrorMsg('Please enter your email address.')
+      setState('error')
+      return
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email.trim())) {
+      setErrorMsg('Please enter a valid email address.')
+      setState('error')
+      return
+    }
     setState('loading')
     setErrorMsg('')
 

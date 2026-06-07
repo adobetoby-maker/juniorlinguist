@@ -5,6 +5,8 @@ import Footer from './components/Footer'
 import Home from './pages/Home'
 import About from './pages/About'
 import Pricing from './pages/Pricing'
+import Privacy from './pages/Privacy'
+import Terms from './pages/Terms'
 import Login from './pages/Login'
 import SubscribeSuccess from './pages/SubscribeSuccess'
 import SplashLoader from './components/learn/SplashLoader'
@@ -85,6 +87,8 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
                 <Route path="/snapshot" element={<SnapshotPage />} />
                 <Route path="/onboarding" element={<OnboardingFlow />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
