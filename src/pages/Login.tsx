@@ -33,7 +33,7 @@ export default function Login() {
     setLoading(true)
     const { error } = await supabase.auth.signInWithPassword({
       email: kidEmail(kidUsername),
-      password: kidPin,
+      password: kidPin + kidPin,
     })
     setLoading(false)
     if (error) { setErr('Username or PIN not found.'); return }
@@ -49,7 +49,7 @@ export default function Login() {
     setLoading(true)
     const { data, error } = await supabase.auth.signUp({
       email: kidEmail(name),
-      password: kidPin,
+      password: kidPin + kidPin,
       options: {
         data: { display_name: name, is_kid: true },
         emailRedirectTo: `${window.location.origin}/learn`,
