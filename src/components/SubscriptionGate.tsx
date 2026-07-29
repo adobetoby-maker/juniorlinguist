@@ -5,8 +5,12 @@ import type { ReactNode } from 'react'
 
 export function SubscriptionGate({ children }: { children: ReactNode }) {
   const { isActive, loading } = useSubscription()
+  const localBookletReview =
+    import.meta.env.DEV &&
+    window.location.pathname.startsWith('/learn/books') &&
+    new URLSearchParams(window.location.search).get('bookletReview') === '1'
 
-  if (loading) return <>{children}</>
+  if (loading || localBookletReview) return <>{children}</>
   if (isActive) return <>{children}</>
 
   return (

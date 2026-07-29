@@ -56,6 +56,7 @@ export function fluencyPct(p: ModuleProgress, moduleId: string): number {
 }
 
 const STORAGE_KEY = 'jl_progress_v1'
+const BOOKLET_STORAGE_KEY = 'jl_booklets_read_v1'
 
 function load(): ProgressStore {
   try {
@@ -102,6 +103,18 @@ export function saveQuizResult(moduleId: string, score: number, stars: 1 | 2 | 3
 export function saveStoryRead(moduleId: string) {
   const prev = getModuleProgress(moduleId)
   patch(moduleId, { storiesRead: (prev.storiesRead ?? 0) + 1 })
+}
+
+export function saveBookletRead(bookId: string): boolean {
+  try {
+    const read = new Set<string>(JSON.parse(localStorage.getItem(BOOKLET_STORAGE_KEY) ?? '[]'))
+    if (read.has(bookId)) return false
+    read.add(bookId)
+    localStorage.setItem(BOOKLET_STORAGE_KEY, JSON.stringify([...read]))
+    return true
+  } catch {
+    return false
+  }
 }
 
 export function saveSpeakSession(moduleId: string) {

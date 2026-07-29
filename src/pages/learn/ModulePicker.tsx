@@ -6,6 +6,7 @@ import { useAppState } from '../../state/AppState'
 import ModulePickerCard from '../../components/learn/ModulePickerCard'
 import LanguageTree from '../../components/learn/LanguageTree'
 import { PURPLE, sansFont, displayFont } from '../../constants'
+import { HELLO_LITTLE_ONE } from '../../data/booklets'
 
 const LANG_TABS = [
   { key: 'es' as const, flag: '🇪🇸', label: 'Spanish' },
@@ -95,6 +96,48 @@ export default function ModulePicker() {
 
         {/* Fluency tree hero — only for ES (primary language) */}
         {lang === 'es' && <LanguageTree />}
+
+        {lang === 'es' && (
+          <section aria-labelledby="picture-books-heading" className="mb-8 rounded-3xl border border-violet-100 bg-white p-4 shadow-sm">
+            <div className="mb-4 flex items-end justify-between gap-4">
+              <div>
+                <h2 id="picture-books-heading" className="text-xl font-black text-slate-950">Picture Books</h2>
+                <p className="text-sm text-slate-600">Read English and Spanish together.</p>
+              </div>
+              <Link
+                to="/learn/books"
+                className="rounded-full px-3 py-2 text-sm font-black text-violet-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+              >
+                See all →
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <Link
+                to="/learn/books/hello-little-one"
+                className="group rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-700"
+              >
+                <div className="aspect-square overflow-hidden rounded-2xl bg-violet-50">
+                  <img
+                    src={HELLO_LITTLE_ONE.pages[0].image.url}
+                    alt={HELLO_LITTLE_ONE.pages[0].image.altText.target}
+                    width={2048}
+                    height={2048}
+                    className="h-full w-full object-contain transition group-hover:scale-[1.02] motion-reduce:transform-none"
+                  />
+                </div>
+                <p className="mt-2 text-sm font-black leading-tight text-slate-950">{HELLO_LITTLE_ONE.title}</p>
+                <p className="text-xs font-semibold text-slate-600">{HELLO_LITTLE_ONE.pages.length} pages · Español</p>
+              </Link>
+              <div aria-disabled="true" className="aspect-square rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50">
+                <div className="flex h-full flex-col items-center justify-center p-3 text-center text-slate-600">
+                  <span aria-hidden="true" className="text-3xl">📚</span>
+                  <p className="mt-2 text-sm font-black">More books</p>
+                  <p className="text-xs">Coming soon</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {visibleModules.map(mod => (
