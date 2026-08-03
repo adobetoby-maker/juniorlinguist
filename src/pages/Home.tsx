@@ -198,7 +198,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <FadeIn>
             <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-full" style={{ backgroundColor: `${PURPLE}14` }}>
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ ...sansFont, color: PURPLE }}>🇪🇸 25 Spanish topics</span>
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ ...sansFont, color: PURPLE }}>🇪🇸 Spanish topics</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ ...displayFont, color: '#18181B' }}>
               Their world.<br />
@@ -212,12 +212,15 @@ export default function Home() {
           </FadeIn>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {KIDS_MODULES.filter(m => m.language === 'es').map((mod, i) => (
+            {KIDS_MODULES.filter(m => m.language === 'es').slice(0, 24).map((mod, i) => (
               <FadeIn key={mod.id} delay={i * 40}>
                 <ModuleCard mod={mod} />
               </FadeIn>
             ))}
           </div>
+          <p className="text-sm mt-8 text-center" style={{ ...sansFont, color: MUTED }}>
+            Showing 24 of 25 Spanish topics. All topics — plus French, Japanese, Italian, and Portuguese — are available in the app.
+          </p>
         </div>
       </section>
 
