@@ -1,11 +1,11 @@
 # Visual Verify — feature/ux-onboarding-improvements
 Date: 2026-08-03
-Commit: 32a9313
+Commit: d7ce029
 
 ## Pixel Evidence
 
 ### scroll-0.png (hero, above fold)
-- Nav: J-circle logo + "Junior Linguist" + Topics / Homeschool / About + purple "Start Learning →" — clean, no ghost
+- Nav: J-circle logo + "Junior Linguist" + Topics / Homeschool / About / Pricing / Log in + purple "Start Free Trial →" — full link set, no ghost
 - "For Ages 7–14 · Homeschool Friendly" pill badge — purple tint, readable
 - Hero headline: "Your child's first" (black serif) / "second language." (purple italic) — full-width, no wrapping
 - Language pills row: 🇪🇸 Spanish · 25 topics, 🇫🇷 French · 9 topics, 🇯🇵 Japanese · 9 topics, 🇮🇹 Italian · 9 topics, 🇧🇷 Portuguese · 9 topics — single row, no overflow
@@ -16,15 +16,15 @@ Commit: 32a9313
 - Hero bottom: ~150px empty cream space below CTAs (pre-existing min-h-screen design, not introduced by our changes)
 - Stats band: warm gray background, "7–14" / "5" / "Weeks" in large purple type — 3-col, equal widths, clean
 - Module section starting: "🇪🇸 SPANISH TOPICS" pill badge — no hardcoded count (badge fix confirmed ✓)
-- "Their world. / Their vocabulary." heading starting to appear
+- "Their world. / Their vocabulary." heading beginning to appear at bottom of frame
 
 ### scroll-1080.png (topic cards section)
 - Badge: "🇪🇸 SPANISH TOPICS" — count removed, no inconsistency with 24-item grid ✓
 - "Their world. / Their vocabulary." heading: black serif + purple italic — consistent with hero style
 - Body text: "Click any topic..." — readable, appropriate leading
-- First two card rows visible: Animals & Nature (teal) / School & Learning (purple) / Family & Home (orange) then Sports & Games / Food & Eating / Travel & Places
-- Cards: emoji icon + colored "Explore ↓" pill + title + tagline + vocab chips — clean hierarchy, no overlaps
-- 3-col grid alignment: cards are same height, gaps consistent
+- First row: Animals & Nature (teal Explore) / School & Learning (purple Explore) / Family & Home (orange Explore) — each with icon, title, tagline, vocab chips, "+6 more"
+- Second row starting: Sports & Games / Food & Eating / Travel & Places
+- 3-col grid alignment: cards same height, gaps consistent, no orphaned card visible
 
 ### Demo button (Login page — confirmed via chrome-devtools screenshot, earlier in session)
 - Dashed purple border, "🎓 Try demo — explore all features free", full-width, above Kid/Parent tab toggle ✓
@@ -40,3 +40,7 @@ Commit: 32a9313
 | Demo button (Login)  | Dashed purple border, full-width, above tab toggle — confirmed via DevTools screenshot | PASS   |
 | Footer presence      | Footer visible in scroll video frames 079–081 — wordmark, nav links, copyright     | PASS   |
 | Outside input        | Opus (model review): orphaned grid tail fixed (24 items), badge fixed; sticky-nav band and hero dead-strip are pre-existing design choices, not blockers | PASS   |
+| 375 (mobile)         | Hamburger nav, hero headline full-width, language pills 2-col wrap, "🇪🇸 SPANISH TOPICS" badge confirmed, stats stacked vertically — no overflow or clipping | PASS   |
+| 1440 (desktop)       | Standard nav, hero single-row pills, both CTAs side-by-side, 3-col card grid with Animals/School/Family as first row — clean alignment | PASS   |
+| 2560 (4K)            | Max-width content centered, hero left-aligned in column, badge count-free confirmed, 3-col grid starts cleanly, no layout breakage | PASS   |
+| 5K (5120px)          | Identical layout structure to 2560 — max-width constraint holds, stats band and module section render identically, no wide-viewport regression | PASS   |
