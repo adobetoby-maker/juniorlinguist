@@ -155,6 +155,16 @@ export default function Login() {
             : mode === 'signin' ? 'Welcome back to Junior Linguist.' : mode === 'signup' ? 'Start your 7-day free trial.' : "We'll send a reset link to your email."}
         </p>
 
+        {/* Demo access */}
+        <button
+          type="button"
+          onClick={() => { localStorage.setItem('jl_demo', 'true'); navigate('/learn') }}
+          className="w-full flex items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-3 text-sm font-semibold mb-5 transition-opacity hover:opacity-70"
+          style={{ ...sansFont, borderColor: PURPLE, color: PURPLE, backgroundColor: `${PURPLE}08` }}
+        >
+          🎓 Try demo — explore all features free
+        </button>
+
         {/* Tab toggle: Kid / Parent */}
         <div className="flex rounded-xl p-1 mb-6 text-sm" style={{ backgroundColor: '#F4F0EB', border: '1px solid rgba(0,0,0,0.08)' }}>
           <button

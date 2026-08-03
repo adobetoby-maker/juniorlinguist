@@ -5,9 +5,10 @@ import type { ReactNode } from 'react'
 
 export function SubscriptionGate({ children }: { children: ReactNode }) {
   const { isActive, loading } = useSubscription()
+  const isDemo = typeof window !== 'undefined' && localStorage.getItem('jl_demo') === 'true'
 
   if (loading) return <>{children}</>
-  if (isActive) return <>{children}</>
+  if (isActive || isDemo) return <>{children}</>
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: '#FDFCF9' }}>
