@@ -152,7 +152,7 @@ export default function Home() {
 
             <div className="flex flex-wrap gap-4">
               <Link
-                to="/learn"
+                to="/onboarding"
                 className="px-8 py-4 rounded-full font-bold text-base transition-opacity hover:opacity-90"
                 style={{ ...sansFont, backgroundColor: PURPLE, color: '#fff' }}
               >
@@ -334,7 +334,7 @@ export default function Home() {
                 The app teaches hundreds more — in context, with an AI that talks back and corrects gently.
               </p>
               <Link
-                to="/learn"
+                to="/onboarding"
                 className="inline-block px-8 py-3 rounded-full font-bold text-sm transition-opacity hover:opacity-90"
                 style={{ ...sansFont, backgroundColor: PURPLE, color: '#fff' }}
               >
@@ -419,14 +419,14 @@ export default function Home() {
               Ten minutes a day. The language will follow.
             </p>
             <Link
-              to="/learn"
+              to="/onboarding"
               className="inline-block px-10 py-4 rounded-full font-bold text-base transition-opacity hover:opacity-90 mb-4"
               style={{ ...sansFont, backgroundColor: '#fff', color: PURPLE }}
             >
               Start Your Free Trial →
             </Link>
             <p className="text-xs" style={{ ...sansFont, color: 'rgba(255,255,255,0.6)' }}>
-              7-day free trial. No credit card required during trial.
+              7-day free trial. You will not be charged until after your trial ends.
             </p>
           </div>
         </section>

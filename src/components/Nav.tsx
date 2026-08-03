@@ -46,12 +46,22 @@ export default function Nav() {
           <Link to="/about" className="text-sm font-semibold transition-opacity hover:opacity-70" style={{ ...sansFont, color: '#71717A' }}>
             About
           </Link>
+          <Link to="/pricing" className="text-sm font-semibold transition-opacity hover:opacity-70" style={{ ...sansFont, color: '#71717A' }}>
+            Pricing
+          </Link>
           <Link
-            to="/learn"
+            to="/login"
+            className="text-sm font-semibold transition-opacity hover:opacity-70"
+            style={{ ...sansFont, color: '#71717A' }}
+          >
+            Log in
+          </Link>
+          <Link
+            to="/onboarding"
             className="px-5 py-2 rounded-full font-bold text-sm transition-opacity hover:opacity-90"
             style={{ ...sansFont, backgroundColor: PURPLE, color: '#fff' }}
           >
-            Start Learning →
+            Start Free Trial →
           </Link>
         </div>
 
@@ -73,8 +83,10 @@ export default function Nav() {
           <a href="/#modules" className="py-3.5 text-base font-semibold" style={{ ...sansFont, color: '#71717A', borderBottom: '1px solid rgba(0,0,0,0.05)' }} onClick={closeMobile}>Topics</a>
           <a href="/#homeschool" className="py-3.5 text-base font-semibold" style={{ ...sansFont, color: '#71717A', borderBottom: '1px solid rgba(0,0,0,0.05)' }} onClick={closeMobile}>Homeschool</a>
           <Link to="/about" className="py-3.5 text-base font-semibold" style={{ ...sansFont, color: '#71717A', borderBottom: '1px solid rgba(0,0,0,0.05)' }} onClick={closeMobile}>About</Link>
-          <Link to="/learn" className="mt-5 py-3.5 rounded-full font-bold text-base text-center" style={{ ...sansFont, backgroundColor: PURPLE, color: '#fff' }} onClick={closeMobile}>
-            Start Learning →
+          <Link to="/pricing" className="py-3.5 text-base font-semibold" style={{ ...sansFont, color: '#71717A', borderBottom: '1px solid rgba(0,0,0,0.05)' }} onClick={closeMobile}>Pricing</Link>
+          <Link to="/login" className="py-3.5 text-base font-semibold" style={{ ...sansFont, color: '#71717A', borderBottom: '1px solid rgba(0,0,0,0.05)' }} onClick={closeMobile}>Log in</Link>
+          <Link to="/onboarding" className="mt-5 py-3.5 rounded-full font-bold text-base text-center" style={{ ...sansFont, backgroundColor: PURPLE, color: '#fff' }} onClick={closeMobile}>
+            Start Free Trial →
           </Link>
         </div>
       )}

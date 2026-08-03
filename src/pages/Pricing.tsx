@@ -42,7 +42,10 @@ export default function Pricing() {
             Junior Linguist
           </h1>
           <p className="text-sm" style={{ ...sansFont, color: '#71717A' }}>
-            Spanish for kids ages 7–14 — games, stories, and AI tutoring.
+            Language learning for kids ages 7–14 — games, stories, and AI tutoring.
+          </p>
+          <p className="text-xs mt-1" style={{ ...sansFont, color: '#A1A1AA' }}>
+            Spanish (25 topics) · French · Japanese · Italian · Portuguese (9 topics each)
           </p>
         </div>
 
@@ -132,7 +135,7 @@ export default function Pricing() {
                   Start free trial →
                 </a>
                 <p className="mt-3 text-center text-xs" style={{ ...sansFont, color: '#A1A1AA' }}>
-                  No credit card required during trial
+                  You will not be charged for 7 days — cancel anytime
                 </p>
               </div>
             </div>

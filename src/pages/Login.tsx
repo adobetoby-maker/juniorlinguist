@@ -166,9 +166,16 @@ export default function Login() {
         </button>
 
         {/* Tab toggle: Kid / Parent */}
-        <div className="flex rounded-xl p-1 mb-6 text-sm" style={{ backgroundColor: '#F4F0EB', border: '1px solid rgba(0,0,0,0.08)' }}>
+        <div
+          role="tablist"
+          aria-label="Login type"
+          className="flex rounded-xl p-1 mb-6 text-sm"
+          style={{ backgroundColor: '#F4F0EB', border: '1px solid rgba(0,0,0,0.08)' }}
+        >
           <button
             type="button"
+            role="tab"
+            aria-selected={tab === 'kid'}
             onClick={() => { setTab('kid'); setErr(null) }}
             className="flex-1 rounded-lg px-4 py-2 font-medium transition-all"
             style={{
@@ -182,6 +189,8 @@ export default function Login() {
           </button>
           <button
             type="button"
+            role="tab"
+            aria-selected={tab === 'parent'}
             onClick={() => { setTab('parent'); setErr(null) }}
             className="flex-1 rounded-lg px-4 py-2 font-medium transition-all"
             style={{
@@ -366,7 +375,7 @@ export default function Login() {
                   </button>
                   <p className="text-xs" style={{ ...sansFont, color: '#A1A1AA' }}>
                     No account?{' '}
-                    <button onClick={() => reset('signup')} className="underline" style={{ color: PURPLE }}>
+                    <button onClick={() => navigate('/pricing')} className="underline" style={{ color: PURPLE }}>
                       Start free trial
                     </button>
                   </p>

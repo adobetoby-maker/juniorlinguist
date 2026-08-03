@@ -19,7 +19,7 @@ export default function Footer() {
             <a href={ADULT_URL} target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-70" style={{ color: MUTED }}>
               Language Threshold (Adult)
             </a>
-            <Link to="/learn" className="transition-opacity hover:opacity-70" style={{ color: MUTED }}>
+            <Link to="/pricing" className="transition-opacity hover:opacity-70" style={{ color: MUTED }}>
               Start Your Free Trial →
             </Link>
             <Link to="/about" className="transition-opacity hover:opacity-70" style={{ color: MUTED }}>

@@ -76,6 +76,7 @@ export default function App() {
         {/* Subscription flow — no nav/footer */}
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Navigate to="/pricing" replace />} />
         <Route path="/subscribe/success" element={<SubscribeSuccess />} />
 
         {/* Marketing site */}
