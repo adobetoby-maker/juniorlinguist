@@ -130,10 +130,10 @@ export default function Home() {
             <div className="flex flex-wrap gap-2 mb-8">
               {[
                 { flag: '🇪🇸', lang: 'Spanish', count: 25 },
-                { flag: '🇫🇷', lang: 'French', count: 9 },
-                { flag: '🇯🇵', lang: 'Japanese', count: 9 },
-                { flag: '🇮🇹', lang: 'Italian', count: 9 },
-                { flag: '🇧🇷', lang: 'Portuguese', count: 9 },
+                { flag: '🇫🇷', lang: 'French', count: 10 },
+                { flag: '🇯🇵', lang: 'Japanese', count: 10 },
+                { flag: '🇮🇹', lang: 'Italian', count: 10 },
+                { flag: '🇧🇷', lang: 'Portuguese', count: 10 },
               ].map(({ flag, lang, count }) => (
                 <span
                   key={lang}
@@ -146,8 +146,8 @@ export default function Home() {
             </div>
 
             <p className="max-w-xl text-base leading-relaxed mb-10" style={{ ...sansFont, color: '#71717A' }}>
-              The same AI engine used by nurses, surgeons, and construction foremen — built from the ground
-              up for curious kids and the families teaching them at home.
+              AI conversation practice for curious kids and the families helping them learn at home.
+              Start with a familiar topic and build from there.
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -176,9 +176,9 @@ export default function Home() {
           <div className="max-w-6xl mx-auto px-6">
             <div className="grid md:grid-cols-3 gap-8">
               {[
-                { stat: '7–14', label: 'The prime window for second language acquisition — children in this range absorb language faster than at any other time in life', source: 'Cognitive science research' },
+                { stat: '7–14', label: 'Designed for curious kids and the families helping them practice a new language', source: 'Intended age range' },
                 { stat: '5', label: 'Languages to explore — Spanish, French, Japanese, Italian, and Portuguese — all taught the same way, with topics kids actually care about', source: 'Junior Linguist' },
-                { stat: 'Weeks', label: 'not years — to reach conversational basics when vocabulary is connected to topics the learner genuinely cares about', source: 'Junior Linguist method' },
+                { stat: '65', label: 'Topic modules: 25 in Spanish and 10 each in French, Japanese, Italian, and Portuguese. Each includes 10 vocabulary entries.', source: 'Current topic catalog' },
               ].map(item => (
                 <div key={item.stat} className="text-center">
                   <div className="text-5xl font-bold mb-2" style={{ ...displayFont, color: PURPLE }}>
@@ -272,7 +272,7 @@ export default function Home() {
             {[
               { step: '01', color: PURPLE, title: 'Pick a topic you love', body: 'Animals, sports, food, science — start with whatever your child is already excited about. Vocabulary sticks when it connects to something real.' },
               { step: '02', color: TEAL, title: 'Talk to the AI', body: 'The AI partner asks questions, reacts to answers, and gently guides the conversation. It sounds like a real exchange, not a worksheet.' },
-              { step: '03', color: AMBER, title: 'Use it by next week', body: 'Short daily sessions beat one long weekly lesson. Ten minutes a day, five days a week — most kids are holding simple conversations within a month.' },
+              { step: '03', color: AMBER, title: 'Build a practice habit', body: 'Try short, regular sessions and revisit familiar topics. Progress depends on the learner and the time they spend practicing.' },
             ].map(item => (
               <FadeIn key={item.step}>
                 <div className="p-6 rounded-2xl" style={{ backgroundColor: '#fff', border: '2px solid rgba(0,0,0,0.06)' }}>
@@ -350,7 +350,7 @@ export default function Home() {
               Also in the Language Threshold family
             </h2>
             <p className="text-sm mb-8" style={{ ...sansFont, color: MUTED }}>
-              When your child is ready for professional-level fluency — or if you are learning alongside them.
+              For adults practicing language for work, travel, or everyday situations.
             </p>
             <div className="grid sm:grid-cols-3 gap-5">
               <a
@@ -423,7 +423,7 @@ export default function Home() {
               Start Your Free Trial →
             </Link>
             <p className="text-xs" style={{ ...sansFont, color: 'rgba(255,255,255,0.6)' }}>
-              7-day free trial. No credit card required during trial.
+              Browse topic previews for free. See pricing for subscription and trial details.
             </p>
           </div>
         </section>

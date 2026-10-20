@@ -92,8 +92,7 @@ export default function EmailCaptureSection() {
             </h2>
 
             <p className="text-base leading-relaxed mb-8 max-w-xl mx-auto" style={{ ...sansFont, color: '#71717A' }}>
-              A printable starter list for ages 7–14. Add your email and we'll send it now,
-              plus tips for making Spanish stick at home.
+              A printable Spanish starter list for ages 7–14. Add your email and we’ll send the nine phrases in one email.
             </p>
 
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
@@ -143,7 +142,7 @@ export default function EmailCaptureSection() {
             )}
 
             <p className="mt-5 text-xs" style={{ ...sansFont, color: '#A1A1AA' }}>
-              No spam. Unsubscribe anytime. We send language tips, not junk.
+              One requested starter email. No subscription required.
             </p>
           </>
         )}
