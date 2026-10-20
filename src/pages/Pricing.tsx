@@ -8,7 +8,7 @@ const ANNUAL_LINK = 'https://buy.stripe.com/bJe8wRgun8xT6U1eyObfO0d'
 const LT50_LINK = 'https://buy.stripe.com/eVqeVf0vpcO9guB2Q6bfO0c'
 
 const FEATURES = [
-  '25 Spanish topics · 9 topics each in French, Japanese, Italian & Portuguese',
+  '25 Spanish topics · 10 topics each in French, Japanese, Italian & Portuguese',
   'Flashcards, quizzes, and memory games',
   'AI tutor chat and pronunciation coach',
   'Daily stories + listening drills',
@@ -42,7 +42,7 @@ export default function Pricing() {
             Junior Linguist
           </h1>
           <p className="text-sm" style={{ ...sansFont, color: '#71717A' }}>
-            Spanish for kids ages 7–14 — games, stories, and AI tutoring.
+            Language learning for kids ages 7–14 — games, stories, and AI tutoring.
           </p>
         </div>
 
