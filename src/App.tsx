@@ -15,6 +15,10 @@ import { GoogleAnalytics } from './components/GoogleAnalytics'
 import { SubscriptionProvider } from './state/subscription-state'
 import { SubscriptionGate } from './components/SubscriptionGate'
 
+const AdventureLibrary = lazy(() => import('./features/adventures/AdventurePages').then(m => ({ default: m.AdventureLibrary })))
+const AdventureOverview = lazy(() => import('./features/adventures/AdventurePages').then(m => ({ default: m.AdventureOverview })))
+const AdventureLessonPage = lazy(() => import('./features/adventures/AdventurePages').then(m => ({ default: m.AdventureLessonPage })))
+
 const SnapshotPage      = lazy(() => import('./pages/SnapshotPage'))
 const OnboardingFlow    = lazy(() => import('./pages/OnboardingFlow'))
 const ModulePicker      = lazy(() => import('./pages/learn/ModulePicker'))
@@ -50,6 +54,9 @@ export default function App() {
               <SubscriptionGate>
                 <Routes>
                   <Route index element={<ModulePicker />} />
+                  <Route path="series" element={<AdventureLibrary />} />
+                  <Route path="series/:seriesId" element={<AdventureOverview />} />
+                  <Route path="series/:seriesId/:lessonNumber" element={<AdventureLessonPage />} />
                   <Route path="dashboard" element={<Dashboard />} />
                   <Route path=":moduleId/vocab" element={<VocabIntelligence />} />
                   <Route path=":moduleId" element={<ModuleHub />} />
@@ -72,6 +79,10 @@ export default function App() {
             </Suspense>
           }
         />
+
+        <Route path="/adventures" element={<Suspense fallback={<SplashLoader />}><AdventureLibrary preview /></Suspense>} />
+        <Route path="/adventures/:seriesId" element={<Suspense fallback={<SplashLoader />}><AdventureOverview preview /></Suspense>} />
+        <Route path="/adventures/:seriesId/preview" element={<Suspense fallback={<SplashLoader />}><AdventureLessonPage preview /></Suspense>} />
 
         {/* Subscription flow — no nav/footer */}
         <Route path="/pricing" element={<Pricing />} />

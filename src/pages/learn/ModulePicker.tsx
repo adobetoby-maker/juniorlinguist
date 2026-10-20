@@ -1,3 +1,4 @@
+import '../../features/adventures/adventures.css'
 import { useMemo, useState, useEffect } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { KIDS_MODULES } from '../../data/kidsModules'
@@ -96,6 +97,7 @@ export default function ModulePicker() {
         {/* Fluency tree hero — only for ES (primary language) */}
         {lang === 'es' && <LanguageTree />}
 
+        {lang === 'es' && <Link to="/learn/series" className="adventure-inline-entry"><strong>🐾 🚀 🍎 Spanish adventures</strong><span>Animals, space, and food · 8 connected lessons each →</span></Link>}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {visibleModules.map(mod => (
             <ModulePickerCard key={mod.id} mod={mod} progress={progress[mod.id]} />

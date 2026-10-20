@@ -1,0 +1,155 @@
+{
+  "scope": "Isolated local component QA using the production player/content/progress code, not an authenticated production learner.",
+  "lessons": [
+    {
+      "id": "animals-1",
+      "finished": true,
+      "width": 375,
+      "scrollWidth": 370
+    },
+    {
+      "id": "animals-2",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "animals-3",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "animals-4",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "animals-5",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "animals-6",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "animals-7",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "animals-8",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "space-1",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "space-2",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "space-3",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "space-4",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "space-5",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "space-6",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "space-7",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "space-8",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "food-1",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "food-2",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "food-3",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "food-4",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "food-5",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "food-6",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "food-7",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    },
+    {
+      "id": "food-8",
+      "finished": true,
+      "scrollWidth": 370,
+      "width": 375
+    }
+  ],
+  "actors": {
+    "bProgress": "QA saved lessons: 0",
+    "guestProgress": "QA saved lessons: 0",
+    "aProgress": "QA saved lessons: 24"
+  },
+  "width": 375
+}

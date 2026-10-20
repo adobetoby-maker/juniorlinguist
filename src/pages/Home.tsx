@@ -223,7 +223,10 @@ export default function Home() {
 
       {/* Email capture lead magnet */}
       <FadeIn>
-        <EmailCaptureSection />
+        <section className="py-16 px-6" style={{ background: '#F5F3FF' }}>
+        <div className="max-w-4xl mx-auto text-center"><p className="font-bold text-sm" style={{ color: PURPLE }}>NEW · SPANISH ADVENTURES</p><h2 className="text-3xl font-bold my-4" style={displayFont}>Small lessons. One growing adventure.</h2><p className="mb-6">Animals, space, and food and cooking. Eight connected lessons in each series, with stories, listening or reading, sentence building, and mini missions.</p><a href="/adventures" className="inline-block rounded-full px-6 py-4 font-bold text-white" style={{ background: PURPLE }}>Explore the three adventures →</a><p className="text-sm mt-4">Try each first lesson free. Full series included with a Junior Linguist subscription.</p></div>
+      </section>
+      <EmailCaptureSection />
       </FadeIn>
 
       {/* Homeschool section */}
