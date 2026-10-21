@@ -40,6 +40,7 @@ export default function Nav() {
           <a href="/#modules" className="text-sm font-semibold transition-opacity hover:opacity-70" style={{ ...sansFont, color: '#71717A' }}>
             Topics
           </a>
+          <Link to="/adventures" className="text-sm font-semibold" style={{ ...sansFont, color: PURPLE }} onClick={closeMobile}>Adventures</Link>
           <a href="/#homeschool" className="text-sm font-semibold transition-opacity hover:opacity-70" style={{ ...sansFont, color: '#71717A' }}>
             Homeschool
           </a>
@@ -71,6 +72,7 @@ export default function Nav() {
       {mobileOpen && (
         <div className="md:hidden flex flex-col gap-0 px-6 pb-6" style={{ borderTop: '1px solid rgba(124,58,237,0.1)', backgroundColor: 'rgba(253,252,249,0.97)' }}>
           <a href="/#modules" className="py-3.5 text-base font-semibold" style={{ ...sansFont, color: '#71717A', borderBottom: '1px solid rgba(0,0,0,0.05)' }} onClick={closeMobile}>Topics</a>
+          <Link to="/adventures" className="py-3.5 text-base font-semibold" style={{ ...sansFont, color: PURPLE }} onClick={closeMobile}>Adventures</Link>
           <a href="/#homeschool" className="py-3.5 text-base font-semibold" style={{ ...sansFont, color: '#71717A', borderBottom: '1px solid rgba(0,0,0,0.05)' }} onClick={closeMobile}>Homeschool</a>
           <Link to="/about" className="py-3.5 text-base font-semibold" style={{ ...sansFont, color: '#71717A', borderBottom: '1px solid rgba(0,0,0,0.05)' }} onClick={closeMobile}>About</Link>
           <Link to="/learn" className="mt-5 py-3.5 rounded-full font-bold text-base text-center" style={{ ...sansFont, backgroundColor: PURPLE, color: '#fff' }} onClick={closeMobile}>

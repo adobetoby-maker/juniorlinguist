@@ -1,0 +1,212 @@
+{
+  "scope": "Hosted normal Google OAuth session with owner-approved temporary Junior Linguist trial access; not a Stripe billing test.",
+  "deployment": "dpl_HX1Y5H13FwaKo7iwZ2SmkpDUnrWU",
+  "url": "https://juniorlinguist-f0li8hhx9-adobetoby-5572s-projects.vercel.app",
+  "completed": [
+    {
+      "id": "animals-1",
+      "saved": true
+    },
+    {
+      "id": "animals-2",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "animals-3",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "animals-4",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "animals-5",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "animals-6",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "animals-7",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "animals-8",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "space-1",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "space-2",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "space-3",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "space-4",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "space-5",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "space-6",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "space-7",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "space-8",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "food-1",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "food-2",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "food-3",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "food-4",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "food-5",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "food-6",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "food-7",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    },
+    {
+      "id": "food-8",
+      "saved": true,
+      "layout": {
+        "scroll": 390,
+        "width": 390
+      }
+    }
+  ],
+  "seriesMapsAfterReload": {
+    "animals": "8 of 8",
+    "space": "8 of 8",
+    "food": "8 of 8"
+  },
+  "replayAnimals1": "Count remained 8 of 8",
+  "authReturn": "Google OAuth returned to the Junior Linguist preview after four exact redirect destinations were approved and saved.",
+  "temporaryAccess": "Original absent jl_subscription_status restored after tests; refresh displayed subscription gate.",
+  "viewportRestored": true,
+  "manualRemaining": [
+    "Physical iPhone Safari Spanish audio playback"
+  ],
+  "boundaries": [
+    "No audible speech quality claimed",
+    "No Stripe payment or webhook test",
+    "Cross-account isolation was tested in local component harness earlier; this session verified one actual signed-in identity."
+  ]
+}

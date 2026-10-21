@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
+import { ADVENTURES } from '../../features/adventures/content'
+import '../../features/adventures/adventures.css'
 import { KIDS_MODULES } from '../../data/kidsModules'
 import { getModuleProgress } from '../../state/progress'
 import FluencyPath from '../../components/learn/FluencyPath'
@@ -39,6 +41,8 @@ export default function ModuleHub() {
       </div>
 
       <div className="max-w-lg mx-auto px-5 -mt-1 pb-12">
+
+        {ADVENTURES.filter(series => mod.language === 'es' && series.moduleId === mod.id).map(series => <Link key={series.id} className="adventure-inline-entry" to={`/learn/series/${series.id}`}><strong>{series.emoji} {series.title}</strong><span>8 connected Spanish lessons · Start your adventure →</span></Link>)}
 
         {/* Fun fact */}
         <div className="rounded-2xl p-4 mb-5 mt-4" style={{ backgroundColor: '#F5F3FF', border: '1.5px solid rgba(124,58,237,0.12)' }}>
