@@ -70,6 +70,11 @@
 }
 .animate-fade-in { animation: fade-in 0.3s ease-out; }
 
+.booklet-word {
+  min-height: 44px;
+  line-height: 44px;
+}
+
 /* Hide scrollbars on overflow-x carousels */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
@@ -93,6 +98,16 @@ button, a, [role="button"] {
 .safe-top    { padding-top:    env(safe-area-inset-top,    0px); }
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
 .pt-safe     { padding-top:    max(56px, calc(56px + env(safe-area-inset-top, 0px))); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 
 /* Spin animation for word-card loader */
 @keyframes spin {

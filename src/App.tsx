@@ -25,6 +25,8 @@ const WordMatchGame     = lazy(() => import('./pages/learn/WordMatchGame'))
 const QuizGame          = lazy(() => import('./pages/learn/QuizGame'))
 const TutorChat         = lazy(() => import('./pages/learn/TutorChat'))
 const KidsReader        = lazy(() => import('./pages/learn/KidsReader'))
+const BookletShelf      = lazy(() => import('./pages/learn/BookletShelf'))
+const BookletReader     = lazy(() => import('./pages/learn/BookletReader'))
 const SpeakLearn        = lazy(() => import('./pages/learn/SpeakLearn'))
 const ListeningDrill    = lazy(() => import('./pages/learn/ListeningDrill'))
 const SentenceBuild     = lazy(() => import('./pages/learn/SentenceBuild'))
@@ -51,6 +53,8 @@ export default function App() {
                 <Routes>
                   <Route index element={<ModulePicker />} />
                   <Route path="dashboard" element={<Dashboard />} />
+                  <Route path="books" element={<BookletShelf />} />
+                  <Route path="books/:bookletId" element={<BookletReader />} />
                   <Route path=":moduleId/vocab" element={<VocabIntelligence />} />
                   <Route path=":moduleId" element={<ModuleHub />} />
                   <Route path=":moduleId/games" element={<GamesHub />} />

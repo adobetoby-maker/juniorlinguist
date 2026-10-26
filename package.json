@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "booklet:check": "node scripts/validate-booklet-snapshot.mjs",
+    "build": "npm run booklet:check && tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
