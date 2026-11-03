@@ -1,3 +1,4 @@
+import { playRecordedSpeech, stopRecordedSpeech } from './recordedSpeech'
 // Voice selection for browser SpeechSynthesis.
 // Preference order: exact voiceURI match → Google voice for locale → any locale voice
 
@@ -52,13 +53,16 @@ export function configureUtterance(
   return u
 }
 
+let speechGeneration = 0
 export function speakText(text: string, locale = 'es-CR', rate = 0.85) {
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
-  try {
-    window.speechSynthesis.cancel()
+  if (typeof window === 'undefined') return
+  const generation = ++speechGeneration
+  stopRecordedSpeech()
+  try { window.speechSynthesis?.cancel() } catch {}
+  void playRecordedSpeech(text, locale, rate).then(played => {
+    if (played === null || played || generation !== speechGeneration || !('speechSynthesis' in window)) return
     const u = new SpeechSynthesisUtterance(text)
-    configureUtterance(u, locale)
-    u.rate = rate
+    configureUtterance(u, locale); u.rate = rate
     window.speechSynthesis.speak(u)
-  } catch { /* TTS is enhancement-only */ }
+  })
 }
