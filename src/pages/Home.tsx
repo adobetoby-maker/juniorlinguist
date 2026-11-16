@@ -4,6 +4,7 @@ import { displayFont, sansFont, PURPLE, TEAL, AMBER, SURFACE, MUTED, ADULT_URL }
 import { KIDS_MODULES, type KidsModule } from '../data/kidsModules'
 import FadeIn from '../components/FadeIn'
 import EmailCaptureSection from '../components/EmailCaptureSection'
+import WeeklySignup from '../components/WeeklySignup'
 
 function ModuleCard({ mod }: { mod: KidsModule }) {
   const [open, setOpen] = useState(false)
@@ -396,6 +397,8 @@ export default function Home() {
           </div>
         </section>
       </FadeIn>
+
+      <WeeklySignup />
 
       {/* Final CTA */}
       <FadeIn>
