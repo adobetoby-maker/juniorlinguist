@@ -1,0 +1,172 @@
+{
+  "localOnly": true,
+  "noRealEmailOrProviderTraffic": true,
+  "cases": [
+    {
+      "name": "unavailable-/",
+      "width": 1440,
+      "posts": 0,
+      "noHorizontalOverflow": true,
+      "publicSignupHidden": true
+    },
+    {
+      "name": "unavailable-/free-downloads",
+      "width": 1440,
+      "posts": 0,
+      "noHorizontalOverflow": true,
+      "publicSignupHidden": true
+    },
+    {
+      "name": "missing-guard",
+      "width": 1440,
+      "posts": 0,
+      "noHorizontalOverflow": true,
+      "publicSignupHidden": true
+    },
+    {
+      "name": "ready-layout",
+      "width": 1440,
+      "posts": 0,
+      "noHorizontalOverflow": true,
+      "uncheckedAdultAndConsent": true,
+      "oneTrackRequired": true
+    },
+    {
+      "name": "ready-layout",
+      "width": 1024,
+      "posts": 0,
+      "noHorizontalOverflow": true,
+      "uncheckedAdultAndConsent": true,
+      "oneTrackRequired": true
+    },
+    {
+      "name": "ready-layout",
+      "width": 768,
+      "posts": 0,
+      "noHorizontalOverflow": true,
+      "uncheckedAdultAndConsent": true,
+      "oneTrackRequired": true
+    },
+    {
+      "name": "ready-layout",
+      "width": 390,
+      "posts": 0,
+      "noHorizontalOverflow": true,
+      "uncheckedAdultAndConsent": true,
+      "oneTrackRequired": true
+    },
+    {
+      "name": "request-track-junior-parent-orientation",
+      "width": 1440,
+      "posts": 1,
+      "noHorizontalOverflow": true,
+      "singleSubmissionDespiteDoubleSubmit": true,
+      "confirmationRequired": true
+    },
+    {
+      "name": "request-track-homeschool-spanish",
+      "width": 1440,
+      "posts": 1,
+      "noHorizontalOverflow": true,
+      "singleSubmissionDespiteDoubleSubmit": true,
+      "confirmationRequired": true
+    },
+    {
+      "name": "request-track-language-threshold-module-lessons",
+      "width": 1440,
+      "posts": 1,
+      "noHorizontalOverflow": true,
+      "singleSubmissionDespiteDoubleSubmit": true,
+      "confirmationRequired": true
+    },
+    {
+      "name": "network-retry",
+      "width": 1440,
+      "posts": 2,
+      "noHorizontalOverflow": true,
+      "sameRequestIdFreshToken": true
+    },
+    {
+      "name": "edited-request",
+      "width": 1440,
+      "posts": 2,
+      "noHorizontalOverflow": true,
+      "newRequestIdAfterEmailChanged": true
+    },
+    {
+      "name": "reject-200",
+      "width": 1440,
+      "posts": 1,
+      "noHorizontalOverflow": true,
+      "noFalseReceipt": true
+    },
+    {
+      "name": "reject-403",
+      "width": 1440,
+      "posts": 1,
+      "noHorizontalOverflow": true,
+      "noFalseReceipt": true
+    },
+    {
+      "name": "reject-429",
+      "width": 1440,
+      "posts": 1,
+      "noHorizontalOverflow": true,
+      "noFalseReceipt": true
+    },
+    {
+      "name": "reject-503",
+      "width": 1440,
+      "posts": 1,
+      "noHorizontalOverflow": true,
+      "noFalseReceipt": true
+    },
+    {
+      "name": "track-not-ready",
+      "width": 1440,
+      "posts": 0,
+      "noHorizontalOverflow": true,
+      "unavailableTrackDisabled": true
+    }
+  ],
+  "errors": [],
+  "externalRequestsBlocked": [
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E",
+    "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800&display=swap",
+    "https://www.googletagmanager.com/gtag/js?id=G-RP0TZ1MP7E"
+  ],
+  "passed": true
+}

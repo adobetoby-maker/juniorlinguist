@@ -7,6 +7,7 @@ import About from './pages/About'
 import Pricing from './pages/Pricing'
 import Privacy from './pages/Privacy'
 import Terms from './pages/Terms'
+import FreeDownloads from './pages/FreeDownloads'
 import Login from './pages/Login'
 import SubscribeSuccess from './pages/SubscribeSuccess'
 import SplashLoader from './components/learn/SplashLoader'
@@ -89,6 +90,7 @@ export default function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Terms />} />
+                <Route path="/free-downloads" element={<FreeDownloads />} />
                 <Route path="/snapshot" element={<SnapshotPage />} />
                 <Route path="/onboarding" element={<OnboardingFlow />} />
                 <Route path="*" element={<Navigate to="/" replace />} />

@@ -3,8 +3,9 @@ import { useNavigate, Link } from 'react-router-dom'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { PURPLE, sansFont, displayFont, BG, TEXT, MUTED } from '../constants'
 import { supabase } from '../state/subscription-state'
+import ParentWeeklyChoice from '../components/ParentWeeklyChoice'
 
-type Mode = 'signin' | 'signup' | 'forgot' | 'check-email'
+type Mode = 'signin' | 'signup' | 'forgot' | 'check-email' | 'signup-ready'
 type Tab = 'parent' | 'kid'
 
 function kidEmail(username: string) {
@@ -23,6 +24,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState<string | null>(null)
   const [checkMsg, setCheckMsg] = useState('')
+  const [checkEmailReason, setCheckEmailReason] = useState<'signup' | 'password-reset' | null>(null)
   const navigate = useNavigate()
 
   async function handleKidSignIn(e: React.FormEvent) {
@@ -65,7 +67,7 @@ export default function Login() {
     else navigate('/learn')
   }
 
-  function reset(m: Mode) { setErr(null); setMode(m) }
+  function reset(m: Mode) { setErr(null); setCheckEmailReason(null); setMode(m) }
 
   async function handleOAuth(provider: 'google' | 'apple') {
     await supabase.auth.signInWithOAuth({
@@ -87,6 +89,7 @@ export default function Login() {
       setLoading(false)
       if (error) { setErr(error.message); return }
       setCheckMsg('Password reset link sent — check your inbox.')
+      setCheckEmailReason('password-reset')
       setMode('check-email')
       return
     }
@@ -117,16 +120,28 @@ export default function Login() {
       if (error) { setErr(error.message); return }
       if (!data.session) {
         setCheckMsg(`Confirmation link sent to ${email}. Click it to activate your account, then sign in.`)
+        setCheckEmailReason('signup')
         setMode('check-email')
       } else {
-        navigate('/learn')
+        setMode('signup-ready')
       }
     }
   }
 
+  if (mode === 'signup-ready') {
+    return <main className="min-h-screen flex items-center justify-center px-4 py-12" style={{ backgroundColor: BG }}>
+      <div className="max-w-sm w-full text-center">
+        <h1 className="text-2xl font-bold mb-3" style={{ ...displayFont, color: TEXT }}>Your account is ready</h1>
+        <p className="text-sm mb-5" style={{ ...sansFont, color: TEXT }}>Continue to Junior Linguist to choose your next activity.</p>
+        <button type="button" onClick={() => navigate('/learn')} className="rounded-full px-7 py-3 text-sm font-bold text-white" style={{ ...sansFont, backgroundColor: PURPLE }}>Start learning →</button>
+        <ParentWeeklyChoice />
+      </div>
+    </main>
+  }
+
   if (mode === 'check-email') {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: BG }}>
+      <div className="min-h-screen flex items-center justify-center px-4 py-12" style={{ backgroundColor: BG }}>
         <div className="max-w-sm w-full text-center">
           <div className="text-5xl mb-4">📬</div>
           <h2 className="text-2xl font-bold mb-2" style={{ ...displayFont, color: TEXT }}>Check your email</h2>
@@ -134,6 +149,7 @@ export default function Login() {
           <button onClick={() => reset('signin')} className="text-xs underline" style={{ ...sansFont, color: PURPLE }}>
             ← Back to sign in
           </button>
+          {checkEmailReason === 'signup' && <ParentWeeklyChoice />}
         </div>
       </div>
     )
@@ -343,6 +359,8 @@ export default function Login() {
                 {mode === 'signin' ? 'Sign in →' : mode === 'signup' ? 'Create account →' : 'Send reset link →'}
               </button>
             </form>
+
+            {tab === 'parent' && (mode === 'signup' || mode === 'signin') && <ParentWeeklyChoice />}
 
             <div className="mt-4 space-y-2 text-center">
               {mode === 'signin' && (

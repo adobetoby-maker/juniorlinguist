@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { checkRateLimit } from './_ratelimit'
+import { checkRateLimit } from './_ratelimit.js'
 
 interface AnthropicMessage {
   content?: Array<{ type: string; input?: unknown }>
