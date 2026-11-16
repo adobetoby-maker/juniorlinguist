@@ -49,7 +49,7 @@ async function scenario({name,path='/free-downloads',width=1440,availability=rea
 async function complete(page,track=0){
  await page.getByLabel('Your adult email',{exact:true}).fill('adult@example.invalid')
  await page.locator('.weekly-track input').nth(track).check()
- await page.getByRole('checkbox',{name:'I am a parent, educator, or adult learner.'}).check()
+ await page.getByRole('checkbox',{name:'I am an adult parent, educator, or learner.'}).check()
  await page.getByRole('checkbox',{name:/I want one weekly lesson email/}).check()
  await assert.doesNotReject(()=>page.getByRole('button',{name:'Request the weekly invitation'}).waitFor())
  await page.waitForFunction(()=>!document.querySelector('.weekly-submit').disabled)
