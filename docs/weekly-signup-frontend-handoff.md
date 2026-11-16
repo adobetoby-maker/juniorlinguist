@@ -1,6 +1,8 @@
 # Optional weekly lesson signup: frontend candidate
 
-Base: `5587b0639003607b27eb56295dec611321e4973a`. This branch adds the same optional adult signup component to `/` and `/free-downloads`. It changes no billing, checkout, authentication, provider configuration, or email enrollment records. Direct free practice and published downloads remain usable without this form.
+Frontend-only release base: current primary `4f1c8b048c6cc7484283443b822a92cef944dd3d`. Reviewed UI commits `a0aca34` and `8332a07` were integrated with current Home retained and a minimal new `/free-downloads` route linking to existing topic browsing. This branch adds the same optional adult signup component to `/` and `/free-downloads`, without importing the secure-billing candidate or advertising unpublished PDF links. It changes no billing, checkout, authentication, provider configuration, or email enrollment behavior.
+
+The baseline Vercel API compiler emitted concrete Stripe namespace and Response.json type diagnostics. A bounded compatibility follow-up adds scoped api/type:module, NodeNext/ES2022/DOM compiler settings and explicit `.js` imports of existing `_ratelimit` helpers. All eleven pre-existing API handler bodies, pricing, subscription gate/state, login and subscription-success source remain identical to the current primary (normalizing only those import suffixes). No secure-billing API routes, journals or server sources are included. Actual Vercel build and API typecheck must pass without diagnostics, then hosted unsigned webhook rejection and existing route behavior must be checked before promotion review.
 
 ## Contract and activation gates
 
