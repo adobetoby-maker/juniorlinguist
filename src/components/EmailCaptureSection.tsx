@@ -70,6 +70,9 @@ export default function EmailCaptureSection() {
             <p className="text-base leading-relaxed mb-8" style={{ ...sansFont, color: '#71717A' }}>
               Your phrases are on their way. Put them on the fridge and start today.
             </p>
+            <p className="mb-5 text-base" style={{ ...sansFont, color: '#4B5563' }}>
+              Parent or homeschool educator? <a href="#weekly-lessons" style={{ color: PURPLE, fontWeight: 700 }}>Choose optional weekly lessons and family activities.</a> Weekly emails start after you confirm that invitation.
+            </p>
             <a
               href={APP_URL}
               target="_blank"
