@@ -90,7 +90,7 @@ export default function WeeklySignup() {
       if (mounted.current && widgetId.current) window.turnstile?.reset(widgetId.current)
     }
   }
-  return <section className="weekly-signup" style={sansFont} aria-labelledby={`${id}-title`}>
+  return <section id="weekly-lessons" className="weekly-signup" style={sansFont} aria-labelledby={`${id}-title`}>
     <div className="weekly-signup-intro"><span className="weekly-eyebrow"><Mail size={16} aria-hidden="true" />An optional weekly lesson</span><h2 id={`${id}-title`} style={displayFont}>A small next step,<br />once a week.</h2><p>Choose one series for a useful lesson and its learning companion. Your free practice and downloads stay separate from email signup.</p></div>
     <div className="weekly-signup-panel">
       {received ? <div role="status" className="weekly-received"><h3 style={displayFont}>Request received.</h3><p>If this address is eligible, a confirmation email will arrive. Weekly lessons start only after you confirm the invitation.</p><p>You can unsubscribe at any time.</p></div> : checking ? <p role="status">Checking weekly lesson availability…</p> : !availability ? <div><h3 style={displayFont}>Weekly lessons are not available right now.</h3><p>You can browse Junior Linguist topics while weekly lessons are being prepared. No email subscription is required to browse these pages.</p><button className="weekly-secondary" type="button" onClick={() => setAvailabilityAttempt(value => value + 1)}>Check again</button></div> : <form onSubmit={submit}>
