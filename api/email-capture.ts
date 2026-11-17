@@ -42,6 +42,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   <a href="https://juniorlinguist.com" style="background:#7C3AED;color:#fff;padding:14px 28px;border-radius:9999px;text-decoration:none;font-family:sans-serif;font-weight:700;font-size:15px">Explore Junior Linguist →</a>
 </p>
 <p style="font-family:sans-serif;color:#6B7280;font-size:13px">25 Spanish topics, plus 10 topics each in French, Japanese, Italian, and Portuguese. Topic previews are free; practice requires a subscription.</p>
+
+<div style="background:#F4F0FF;border-radius:12px;padding:20px;margin:24px 0;font-family:sans-serif">
+  <h3 style="color:#18181B;margin-top:0">Would you like a small new lesson each week?</h3>
+  <p style="color:#4B5563">Parents and educators can choose our 10-week Junior Linguist starter plan or 50-week Homeschool Spanish series, with useful words and a short family activity.</p>
+  <p><a href="https://juniorlinguist.com/#weekly-lessons" style="color:#6D28D9;font-weight:700">Choose optional parent or homeschool lessons →</a></p>
+  <p style="color:#4B5563;font-size:13px">This starter email has not subscribed you. Choose a series using an adult email, then confirm the separate invitation to begin weekly lessons.</p>
+</div>
 <hr style="border:none;border-top:1px solid #E5E7EB;margin:24px 0">
 <p style="font-family:sans-serif;color:#9CA3AF;font-size:12px">Junior Linguist · Language learning for ages 7–14</p>
 `
