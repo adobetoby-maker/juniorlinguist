@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { checkRateLimit } from './_ratelimit'
+import { checkRateLimit } from './_ratelimit.js'
 
 const LANG_NAMES: Record<string, string> = {
   es: 'Spanish', fr: 'French', ja: 'Japanese', it: 'Italian', pt: 'Portuguese',

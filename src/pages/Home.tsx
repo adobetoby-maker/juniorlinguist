@@ -1,3 +1,4 @@
+import WeeklySignup from '../components/WeeklySignup'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { displayFont, sansFont, PURPLE, TEAL, AMBER, SURFACE, MUTED, ADULT_URL } from '../constants'
@@ -227,6 +228,7 @@ export default function Home() {
       {/* Email capture lead magnet */}
       <FadeIn>
         <EmailCaptureSection />
+        <WeeklySignup />
       </FadeIn>
 
       {/* Homeschool section */}
