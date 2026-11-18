@@ -1,25 +1,54 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { Resend } from 'resend'
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { Resend } from "resend";
+import { parentMarketingStatus } from "../server/parent-marketing.js";
 
 function escapeHtml(value: string): string {
-  return value.replace(/[&<>"']/g, character => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
-  })[character]!)
+  return value.replace(
+    /[&<>"']/g,
+    (character) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      })[character]!,
+  );
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+  if (req.method === "GET" && req.query?.status === "marketing") {
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("X-Robots-Tag", "noindex");
+    try {
+      return res
+        .status(200)
+        .json(await parentMarketingStatus(process.env.VERCEL_DEPLOYMENT_ID));
+    } catch {
+      return res
+        .status(503)
+        .json({ error: "Parent lesson signup is temporarily unavailable." });
+    }
+  }
+  if (req.method !== "POST")
+    return res.status(405).json({ error: "Method not allowed" });
 
-  const { email, name } = req.body ?? {}
-  if (!email || typeof email !== 'string' || !email.includes('@')) {
-    return res.status(400).json({ error: 'Valid email required' })
+  const { email, name } = req.body ?? {};
+  if (!email || typeof email !== "string" || !email.includes("@")) {
+    return res.status(400).json({ error: "Valid email required" });
   }
 
-  const apiKey = process.env.RESEND_API_KEY
-  if (!apiKey) return res.status(503).json({ ok: false, error: 'Email is temporarily unavailable' })
-  const resend = new Resend(apiKey)
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey)
+    return res
+      .status(503)
+      .json({ ok: false, error: "Email is temporarily unavailable" });
+  const resend = new Resend(apiKey);
 
-  const displayName = (name && typeof name === 'string' && name.trim()) ? escapeHtml(name.trim()) : 'there'
+  const displayName =
+    name && typeof name === "string" && name.trim()
+      ? escapeHtml(name.trim())
+      : "there";
 
   const htmlBody = `
 <h2 style="font-family:sans-serif;color:#18181B">Welcome to Junior Linguist!</h2>
@@ -51,24 +80,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 </div>
 <hr style="border:none;border-top:1px solid #E5E7EB;margin:24px 0">
 <p style="font-family:sans-serif;color:#9CA3AF;font-size:12px">Junior Linguist · Language learning for ages 7–14</p>
-`
+`;
 
   try {
     const { data, error } = await resend.emails.send({
-      from: 'Junior Linguist <hello@languagethreshold.com>',
+      from: "Junior Linguist <hello@languagethreshold.com>",
       to: [email],
       subject: "Your child's first Spanish lesson — free",
       html: htmlBody,
-    })
+    });
 
     if (error || !data?.id) {
-      console.error('Junior Linguist email was not accepted by the email provider')
-      return res.status(502).json({ ok: false, error: 'Failed to send email' })
+      console.error(
+        "Junior Linguist email was not accepted by the email provider",
+      );
+      return res.status(502).json({ ok: false, error: "Failed to send email" });
     }
 
-    return res.status(200).json({ ok: true })
+    return res.status(200).json({ ok: true });
   } catch {
-    console.error('Junior Linguist email request did not complete')
-    return res.status(500).json({ ok: false, error: 'Failed to send email' })
+    console.error("Junior Linguist email request did not complete");
+    return res.status(500).json({ ok: false, error: "Failed to send email" });
   }
 }
