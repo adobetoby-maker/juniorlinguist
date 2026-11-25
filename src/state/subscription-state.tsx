@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
@@ -25,13 +25,26 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
   const [userId, setUserId] = useState<string | null>(null)
   const [userEmail, setUserEmail] = useState<string | null>(null)
 
+  const generation = useRef(0)
+  const [familyAccess, setFamilyAccess] = useState<{uid:string; expires:number} | null>(null)
+  useEffect(() => {
+    if (!familyAccess) return
+    const timer = setTimeout(() => { void load(familyAccess.uid) }, Math.min(2147483647, Math.max(0, familyAccess.expires - Date.now())))
+    return () => clearTimeout(timer)
+  }, [familyAccess])
   async function load(uid: string) {
+    const version = ++generation.current
+    const family = await supabase.rpc('my_v4_apple_plan').maybeSingle()
+    const plan = family.data as {product_id:string;expires_at:string} | null
+    if (version !== generation.current) return
+    setFamilyAccess(plan?.product_id.includes('.family.') ? {uid,expires:Date.parse(plan.expires_at)} : null)
     const { data } = await supabase
       .from('profiles')
       .select('data')
       .eq('id', uid)
       .single()
     const s = (data?.data as Record<string, unknown>)?.jl_subscription_status as SubscriptionStatus | undefined
+    if (version !== generation.current) return
     setStatus(s ?? 'none')
     setLoading(false)
   }
@@ -57,6 +70,8 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
         setUserEmail(session.user.email ?? null)
         load(session.user.id)
       } else {
+        generation.current++
+        setFamilyAccess(null)
         setUserId(null)
         setUserEmail(null)
         setStatus('none')
@@ -67,7 +82,7 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <Ctx.Provider value={{ status, loading, isActive: status === 'active' || status === 'trialing', userId, userEmail, refresh }}>
+    <Ctx.Provider value={{ status, loading, isActive: status === 'active' || status === 'trialing' || (!!familyAccess && familyAccess.uid === userId && familyAccess.expires > Date.now()), userId, userEmail, refresh }}>
       {children}
     </Ctx.Provider>
   )
